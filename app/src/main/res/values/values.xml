@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="settings_theme_code" type="string">settings_theme</item>
+    <item name="settings_theme_classic_code" type="string">settings_theme_classic</item>
+    <item name="settings_theme_dark_code" type="string">settings_theme_dark</item>
+    <item name="settings_theme_default_code" type="string">settings_theme_default</item>
+</resources>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/main_bottom_menu_control"
+        android:icon="@drawable/ic_menu_control"
+        android:title="@string/main_menu_control" />
+
+    <item
+        android:id="@+id/main_bottom_menu_messages"
+        android:icon="@drawable/ic_menu_messages"
+        android:title="@string/main_menu_messages" />
+
+</menu>

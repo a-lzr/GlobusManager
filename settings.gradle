@@ -1,0 +1,2 @@
+rootProject.name='GlobusManager'
+include ':app'

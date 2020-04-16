@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">GlobusManager</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_main">Главная</string>
+    <string name="menu_instructions">Инструкции</string>
+    <string name="menu_contacts">Контакты</string>
+    <string name="menu_tools">Утилиты</string>
+    <string name="menu_settings">Настройки</string>
+    <string name="menu_info">Справка</string>
+
+    <string name="main_menu_control">Контрольные сообщения</string>
+    <string name="main_menu_messages">Сообщенич</string>
+
+    <string name="settings">Настройки</string>
+    <string name="settings_theme_title">Темы оформления</string>
+    <string name="settings_theme_dialog">Выберите тему оформления</string>
+    <string name="settings_theme_classic_name">Классическая</string>
+    <string name="settings_theme_dark_name">Тёмная</string>
+    <string name="settings_theme_default_name">По умолчанию</string>
+    <string name="settings_theme_set">Установлена тема оформления</string>
+
+    <string name="home_second">Home Second</string>
+</resources>

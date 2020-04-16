@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_bar_main"
+    app:startDestination="@+id/nav_bar_main">
+
+    <fragment
+        android:id="@+id/nav_bar_main"
+        android:name="by.tms.globusmanager.main.MainFragment"
+        android:label="@string/menu_main"
+        tools:layout="@layout/fragment_main" />
+
+    <fragment
+        android:id="@+id/nav_bar_instructions"
+        android:name="by.tms.globusmanager.instructions.InstructionsFragment"
+        android:label="@string/menu_instructions"
+        tools:layout="@layout/fragment_instructions" />
+
+    <fragment
+        android:id="@+id/nav_bar_contacts"
+        android:name="by.tms.globusmanager.contacts.ContactsFragment"
+        android:label="@string/menu_contacts"
+        tools:layout="@layout/fragment_contacts" />
+
+    <fragment
+        android:id="@+id/nav_bar_tools"
+        android:name="by.tms.globusmanager.tools.ToolsFragment"
+        android:label="@string/menu_tools"
+        tools:layout="@layout/fragment_contacts" />
+
+    <fragment
+        android:id="@+id/nav_bar_settings"
+        android:name="by.tms.globusmanager.settings.SettingsFragment"
+        android:label="@string/menu_settings"
+        tools:layout="@layout/fragment_contacts" />
+
+    <fragment
+        android:id="@+id/nav_bar_info"
+        android:name="by.tms.globusmanager.info.InfoFragment"
+        android:label="@string/menu_info"
+        tools:layout="@layout/fragment_contacts" />
+</navigation>

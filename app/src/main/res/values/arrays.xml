@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="settings_theme_codes">
+        <item>@string/settings_theme_classic_code</item>
+        <item>@string/settings_theme_dark_code</item>
+        <item>@string/settings_theme_default_code</item>
+    </string-array>
+    <string-array name="settings_theme_names">
+        <item>@string/settings_theme_classic_name</item>
+        <item>@string/settings_theme_dark_name</item>
+        <item>@string/settings_theme_default_name</item>
+    </string-array>
+</resources>
