@@ -6,9 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import by.tms.globusmanager.R
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.fragment_main.*
+import by.tms.globusmanager.R
 
 class MainFragment : Fragment() {
 
@@ -21,11 +21,8 @@ class MainFragment : Fragment() {
     ): View? {
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
-        val root = inflater.inflate(R.layout.fragment_main, container, false)
-
-        return root
+        return inflater.inflate(R.layout.fragment_main, container, false)
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,23 +32,7 @@ class MainFragment : Fragment() {
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
 
             override fun onTabSelected(tab: TabLayout.Tab) {
-                when (tab.position) {
-                    1 -> {
-                        childFragmentManager
-                            .beginTransaction()
-                            .replace(main_fragment_widget.id, MainMessagesFragment())
-                            .commit()
-                    }
-                    else -> {
-                        childFragmentManager
-                            .beginTransaction()
-                            .replace(main_fragment_widget.id, MainControlFragment())
-                            .commit()
-                    }
-                }
-//                Toast.makeText(context, "onTabSelected", Toast.LENGTH_SHORT)
-//                Log.i("TextStats","NEW TAB SELECTED: " + tab.position)
-//                viewPagerReference.currentItem = tab.position
+                updateTabPosition(tab.position)
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab) {
@@ -62,5 +43,24 @@ class MainFragment : Fragment() {
 //                Toast.makeText(context, "onTabReselected", Toast.LENGTH_SHORT)
             }
         })
+
+        updateTabPosition(tabLayout.selectedTabPosition)
+    }
+
+    private fun updateTabPosition(position: Int) {
+        when (position) {
+            1 -> {
+                childFragmentManager
+                    .beginTransaction()
+                    .replace(main_fragment_widget.id, MainMessagesFragment())
+                    .commit()
+            }
+            else -> {
+                childFragmentManager
+                    .beginTransaction()
+                    .replace(main_fragment_widget.id, MainControlFragment())
+                    .commit()
+            }
+        }
     }
 }

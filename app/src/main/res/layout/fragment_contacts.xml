@@ -6,17 +6,36 @@
     android:layout_height="match_parent"
     tools:context=".contacts.ContactsFragment">
 
-    <TextView
-        android:id="@+id/text_slideshow"
+    <FrameLayout
+        android:id="@+id/contact_fragment_widget"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/contact_tab_layout"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/contact_tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
+        android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:tabIndicatorGravity="top"
+        app:tabTextAppearance="@style/AppTheme.TabLayoutTextAppearance">
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:icon="@drawable/ic_menu_contacts_faces"
+            android:text="@string/menu_contacts_faces"
+            android:textAllCaps="false" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:icon="@drawable/ic_menu_contacts_groups"
+            android:text="@string/menu_contacts_groups"
+            android:textAllCaps="false" />
+
+    </com.google.android.material.tabs.TabLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

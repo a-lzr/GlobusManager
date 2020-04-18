@@ -19,20 +19,21 @@
         android:layout_height="wrap_content"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:tabIndicatorGravity="top"
         app:tabTextAppearance="@style/AppTheme.TabLayoutTextAppearance">
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:icon="@drawable/ic_menu_control"
-            android:text="@string/main_menu_control"
+            android:text="@string/menu_main_control"
             android:textAllCaps="false" />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:icon="@drawable/ic_menu_messages"
-            android:text="@string/main_menu_messages"
+            android:text="@string/menu_main_messages"
             android:textAllCaps="false" />
 
     </com.google.android.material.tabs.TabLayout>

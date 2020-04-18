@@ -8,15 +8,18 @@
     <string name="action_settings">Settings</string>
 
     <string name="menu_main">Главная</string>
+    <string name="menu_main_control">Контрольные сообщения</string>
+    <string name="menu_main_messages">Сообщения</string>
+
     <string name="menu_instructions">Инструкции</string>
+
     <string name="menu_contacts">Контакты</string>
+    <string name="menu_contacts_faces">Контакты</string>
+    <string name="menu_contacts_groups">Группы</string>
+
     <string name="menu_tools">Утилиты</string>
+
     <string name="menu_settings">Настройки</string>
-    <string name="menu_info">Справка</string>
-
-    <string name="main_menu_control">Контрольные сообщения</string>
-    <string name="main_menu_messages">Сообщения</string>
-
     <string name="settings">Настройки</string>
     <string name="settings_theme_title">Темы оформления</string>
     <string name="settings_theme_dialog">Выберите тему оформления</string>
@@ -25,5 +28,5 @@
     <string name="settings_theme_default_name">По умолчанию</string>
     <string name="settings_theme_set">Установлена тема оформления</string>
 
-    <string name="home_second">Home Second</string>
+    <string name="menu_info">Справка</string>
 </resources>
