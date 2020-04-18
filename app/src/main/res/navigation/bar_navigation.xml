@@ -2,7 +2,6 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/navigation_bar_main"
     app:startDestination="@+id/nav_bar_main">
 
     <fragment
@@ -40,4 +39,5 @@
         android:name="by.tms.globusmanager.info.InfoFragment"
         android:label="@string/menu_info"
         tools:layout="@layout/fragment_contacts" />
+
 </navigation>
