@@ -15,11 +15,11 @@
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/contact_tab_layout"
+        style="@style/Widget.MaterialComponents.TabLayout.Colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:tabIndicatorGravity="top"
         app:tabTextAppearance="@style/AppTheme.TabLayoutTextAppearance">
 
         <com.google.android.material.tabs.TabItem
