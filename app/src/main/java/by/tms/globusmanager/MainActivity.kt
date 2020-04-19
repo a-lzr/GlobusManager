@@ -1,20 +1,32 @@
 package by.tms.globusmanager
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
+import android.view.MenuItem
+import android.view.ViewParent
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.app.ActivityCompat
+import androidx.core.view.get
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
+import androidx.navigation.ui.*
 import com.google.android.material.navigation.NavigationView
+import kotlinx.android.synthetic.main.content_main.*
 
+
+private const val PERMISSION_CONTACT_REQUEST_CODE = 1
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var navView: NavigationView
+    private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,11 +40,10 @@ class MainActivity : AppCompatActivity() {
 //            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                    .setAction("Action", null).show()
 //        }
+
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
-        val navView: NavigationView = findViewById(R.id.nav_view)
-        val navController = findNavController(R.id.nav_context_fragment)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+        navView = findViewById(R.id.nav_view)
+        navController = findNavController(R.id.nav_context_fragment)
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.nav_bar_main,
@@ -43,56 +54,30 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_bar_info
             ), drawerLayout
         )
+
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-//        tabLayout.setupWithViewPager(viewPager)
-
-/*        viewPager = findViewById<ViewPager>(R.id.main_view_pager)
-        viewPager!!.adapter = MainFragmentPagerAdapter(supportFragmentManager) // , this@MainActivity
-
-        tabLayout = findViewById<TabLayout>(R.id.main_tab_layout)
-        addTab(tabLayout!!, R.string.main_menu_control, R.drawable.ic_menu_control)
-        addTab(tabLayout!!, R.string.main_menu_messages, R.drawable.ic_menu_messages)
-        tabLayout!!.visibility = TabLayout.VISIBLE
-        tabLayout!!.tabGravity = TabLayout.GRAVITY_FILL
-
-        tabLayout!!.setupWithViewPager(viewPager)
-
-        viewPager!!.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
-
-        tabLayout!!.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                Toast.makeText(tabLayout!!.context, "onTabSelected", Toast.LENGTH_SHORT)
-//                Log.i("TextStats","NEW TAB SELECTED: " + tab.position)
-//                viewPagerReference.currentItem = tab.position
+        navView.setNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.nav_bar_contacts -> {
+                    if (!addPermissions(
+                            arrayOf(Manifest.permission.READ_CONTACTS),
+                            PERMISSION_CONTACT_REQUEST_CODE
+                        )
+                    )
+                        return@setNavigationItemSelectedListener false
+                }
             }
 
-            override fun onTabUnselected(tab: TabLayout.Tab) {
-                Toast.makeText(tabLayout!!.context, "onTabUnselected", Toast.LENGTH_SHORT)
-            }
-
-            override fun onTabReselected(tab: TabLayout.Tab) {
-                Toast.makeText(tabLayout!!.context, "onTabReselected", Toast.LENGTH_SHORT)
-            }
-        }) */
-
-/*        val navMenuView: BottomNavigationView = findViewById(R.id.nav_menu_view)
-
-        val navMenuController = findNavController(R.id.nav_host_fragment)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        val appMenuBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.nav_menu_main_control, R.id.nav_menu_main_messages
-            )
-        )
-        setupActionBarWithNavController(navMenuController, appMenuBarConfiguration)
-        navMenuView.setupWithNavController(navMenuController) */
+            val handled = NavigationUI.onNavDestinationSelected(it, navController)
+            if (handled)
+                finishNavigate()
+            return@setNavigationItemSelectedListener handled
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main_menu, menu)
         return true
     }
@@ -100,5 +85,65 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_context_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        when (requestCode) {
+            PERMISSION_CONTACT_REQUEST_CODE -> {
+                if (checkPermissionsResult(grantResults)) {
+                    customNavigate(R.id.nav_bar_contacts)
+                }
+            }
+            else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        }
+    }
+
+    private fun customNavigate(itemId: Int) {
+        val options = NavOptions.Builder()
+            .setPopUpTo(navController.currentDestination!!.id, true)
+            .setLaunchSingleTop(true)
+            .build()
+        navController.navigate(itemId, null, options)
+
+        finishNavigate()
+    }
+
+    private fun finishNavigate() {
+        val parent = navView.parent
+        if (parent is DrawerLayout) {
+            parent.closeDrawer(navView)
+        }
+    }
+
+//    private fun getBarMenuIndexById(id: Int): Int {
+//        return appBarConfiguration.topLevelDestinations.indexOf(id)
+//    }
+
+    private fun addPermissions(permissions: Array<String>, requestCode: Int): Boolean {
+        if (checkPermissions(permissions)) return true
+        Log.e("TAG1", "START REQUEST")
+        ActivityCompat.requestPermissions(this, permissions, requestCode)
+        Log.e("TAG1", "END REQUEST")
+        return false
+    }
+
+    private fun checkPermissions(permissions: Array<String>): Boolean {
+        for (i in permissions.indices)
+            if (ActivityCompat.checkSelfPermission(
+                    this,
+                    permissions[i]
+                ) != PackageManager.PERMISSION_GRANTED
+            ) return false
+        return true
+    }
+
+    private fun checkPermissionsResult(permissions: IntArray): Boolean {
+        for (i in permissions.indices)
+            if (permissions[i] != PackageManager.PERMISSION_GRANTED) return false
+        return true
     }
 }
