@@ -1,11 +1,15 @@
 package by.tms.globusmanager.contacts
 
 import android.Manifest
+import android.content.ContentProviderOperation
 import android.content.pm.PackageManager
-import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
 import android.provider.ContactsContract
+import android.provider.ContactsContract.CommonDataKinds.Phone
+import android.provider.ContactsContract.CommonDataKinds.StructuredName
+import android.provider.ContactsContract.RawContacts
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,8 +17,10 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.loader.content.CursorLoader
+import by.tms.globusmanager.MainActivityListener
 import by.tms.globusmanager.R
 import kotlinx.android.synthetic.main.fragment_contacts_faces.*
+
 
 class ContactsFacesFragment : Fragment() {
 
@@ -75,6 +81,19 @@ class ContactsFacesFragment : Fragment() {
 //        mContactTextView.setText(myContacts)
 
         textView.text = myContacts
+
+        add_btn.setOnClickListener {
+            with (context as MainActivityListener) {
+                addContact()
+                textView.text = ""
+            }
+        }
+
+        get_btn.setOnClickListener {
+            with (context as MainActivityListener) {
+                textView.text = getContacts().toString()
+            }
+        }
     }
 
 }

@@ -1,8 +1,13 @@
 package by.tms.globusmanager
 
 import android.Manifest
+import android.R.id
+import android.annotation.SuppressLint
+import android.content.ContentProviderOperation
 import android.content.pm.PackageManager
+import android.database.Cursor
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.util.Log
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
@@ -15,9 +20,10 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.*
 import com.google.android.material.navigation.NavigationView
 
+
 private const val PERMISSION_CONTACT_REQUEST_CODE = 1
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), MainActivityListener {
 
     private lateinit var navView: NavigationView
     private lateinit var navController: NavController
@@ -56,7 +62,10 @@ class MainActivity : AppCompatActivity() {
             when (it.itemId) {
                 R.id.nav_bar_contacts -> {
                     if (!addPermissions(
-                            arrayOf(Manifest.permission.READ_CONTACTS),
+                            arrayOf(
+                                Manifest.permission.READ_CONTACTS,
+                                Manifest.permission.WRITE_CONTACTS
+                            ),
                             PERMISSION_CONTACT_REQUEST_CODE
                         )
                     )
@@ -139,5 +148,74 @@ class MainActivity : AppCompatActivity() {
         for (i in permissions.indices)
             if (permissions[i] != PackageManager.PERMISSION_GRANTED) return false
         return true
+    }
+
+    override fun addContact() {
+        val op = ArrayList<ContentProviderOperation>()
+
+//        ContactsContract.CommonDataKinds.
+
+        op.add(
+            ContentProviderOperation.newInsert(ContactsContract.RawContacts.CONTENT_URI)
+                .withValue(ContactsContract.RawContacts.ACCOUNT_TYPE, "com.globus")
+                .withValue(ContactsContract.RawContacts.ACCOUNT_NAME, "0001A")
+                .build()
+        )
+
+        op.add(
+            ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+                .withValue(
+                    ContactsContract.Data.MIMETYPE,
+                    ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE
+                )
+                .withValue(
+                    ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME,
+                    "Alexander XXXX"
+                )
+                .build()
+        )
+        op.add(
+            ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+                .withValue(
+                    ContactsContract.Data.MIMETYPE,
+                    ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE
+                )
+                .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, "+37533333333333")
+                .withValue(
+                    ContactsContract.CommonDataKinds.Phone.TYPE,
+                    ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE
+                )
+                .build()
+        )
+
+        try {
+            contentResolver.applyBatch(ContactsContract.AUTHORITY, op)
+            Log.e("TAG!", "SUCCESS")
+        } catch (e: Exception) {
+            Log.e("TAG!", e.message)
+        }
+    }
+
+    @SuppressLint("Recycle")
+    override fun getContacts(): Int {
+        /*val c: Cursor? = contentResolver.query(
+            ContactsContract.Contacts.CONTENT_URI,
+            arrayOf<String>(ContactsContract.Contacts._ID),
+            ContactsContract.Contacts.DISPLAY_NAME + " = 'Alexander Lazerko'",
+            null,
+            null
+        ) */
+
+        val phoneCursor = contentResolver.query(
+            ContactsContract.RawContacts.CONTENT_URI,
+            null,
+            ContactsContract.RawContacts.ACCOUNT_TYPE + " = 'com.globus'",
+            null,
+            null
+        )
+
+        return phoneCursor?.count ?: -1
     }
 }
