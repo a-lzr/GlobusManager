@@ -3,13 +3,14 @@ package by.tms.globusmanager.settings
 import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
-import by.tms.globusmanager.MainApplication
+import by.tms.globusmanager.GlobusApplication
 import by.tms.globusmanager.R
 import by.tms.globusmanager.account.AccountHelper
 
 object SettingsHelper {
 
-    private val storage = PreferenceManager.getDefaultSharedPreferences(MainApplication.appContext)
+    private val storage =
+        PreferenceManager.getDefaultSharedPreferences(GlobusApplication.appContext)
 
     fun loadSettings() {
         loadAccountSettings()
@@ -31,11 +32,7 @@ object SettingsHelper {
                 ),
                 null
             )
-        account?.let {
-            applyAccount(
-                it
-            )
-        }
+        applyAccount(account)
     }
 
     private fun loadThemeSettings() {
@@ -43,8 +40,9 @@ object SettingsHelper {
             storage.getString(
                 getPreferenceString(
                     R.string.settings_theme_code
-                ),null)
-        theme?.let { applyTheme(it) }
+                ), null
+            )
+        applyTheme(theme)
     }
 
     private fun getStringFromStorage(key: String, defValue: String?): String? {
@@ -56,19 +54,19 @@ object SettingsHelper {
     }
 
     fun getPreferenceString(id: Int): String {
-        return MainApplication.getResources().getString(id)
+        return GlobusApplication.getResources().getString(id)
     }
 
     fun getPreferenceStringArray(id: Int): Array<String> {
-        return MainApplication.getResources().getStringArray(id)
+        return GlobusApplication.getResources().getStringArray(id)
     }
 
-    fun applyAccount(account: String) {;
+    private fun applyAccount(account: String?) {;
         AccountHelper.initAccount(account)
     }
 
-    fun applyTheme(code: String?) {;
-        when (code) {
+    fun applyTheme(theme: String?) {;
+        when (theme) {
             getPreferenceString(R.string.settings_theme_classic_code) -> {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             }

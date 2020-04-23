@@ -48,9 +48,6 @@ class Authenticator(val context: Context) : AbstractAccountAuthenticator(context
     ): Bundle {
         // If the caller requested an authToken type we don't support, then
         // return an error
-
-        // If the caller requested an authToken type we don't support, then
-        // return an error
 /*        if (!authTokenType.equals(AccountGeneral.AUTHTOKEN_TYPE_READ_ONLY) && !authTokenType.equals(
                 AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS
             )
@@ -62,15 +59,11 @@ class Authenticator(val context: Context) : AbstractAccountAuthenticator(context
 
         // Extract the username and password from the Account Manager, and ask
         // the server for an appropriate AuthToken.
-
-        // Extract the username and password from the Account Manager, and ask
-        // the server for an appropriate AuthToken.
         val am = AccountManager.get(context)
         val authToken = am.peekAuthToken(account, authTokenType)
 
         // Lets give another try to authenticate the user
 
-        // Lets give another try to authenticate the user
 /*        if (TextUtils.isEmpty(authToken)) {
             val password = am.getPassword(account)
             if (password != null) {
@@ -85,7 +78,6 @@ class Authenticator(val context: Context) : AbstractAccountAuthenticator(context
 
         // If we get an authToken - we return it
 
-        // If we get an authToken - we return it
         if (!TextUtils.isEmpty(authToken)) {
             val result = Bundle()
             result.putString(AccountManager.KEY_ACCOUNT_NAME, account.name)
@@ -98,17 +90,7 @@ class Authenticator(val context: Context) : AbstractAccountAuthenticator(context
         // need to re-prompt them for their credentials. We do that by creating
         // an intent to display our AuthenticatorActivity.
 
-        // If we get here, then we couldn't access the user's password - so we
-        // need to re-prompt them for their credentials. We do that by creating
-        // an intent to display our AuthenticatorActivity.
-        val intent = Intent(context, RegistrationActivity::class.java)
-//        intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response)
-//        intent.putExtra(com.lodoss.authlib.Config.ARG_ACCOUNT_TYPE, account.type)
-//        intent.putExtra(com.lodoss.authlib.Config.ARG_AUTH_TYPE, authTokenType)
-//        intent.putExtra(Config.ARG_ACCOUNT_NAME, account.name)
-        val bundle = Bundle()
-        bundle.putParcelable(AccountManager.KEY_INTENT, intent)
-        return bundle
+        return registry()
 
 /*        val result = Bundle()
         val am = AccountManager.get(context.applicationContext)
@@ -159,6 +141,10 @@ class Authenticator(val context: Context) : AbstractAccountAuthenticator(context
         requiredFeatures: Array<out String>?,
         options: Bundle?
     ): Bundle {
+        return registry()
+    }
+
+    private fun registry(): Bundle {
         val intent = Intent(context, RegistrationActivity::class.java)
 //        intent.putExtra(RegistrationActivity.EXTRA_TOKEN_TYPE, accountType)
 //        intent.putExtra(RegistrationActivity.ARG_AUTH_TYPE, authTokenType);

@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.res.Resources
 import by.tms.globusmanager.settings.SettingsHelper
 
-class MainApplication : Application() {
+class GlobusApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()

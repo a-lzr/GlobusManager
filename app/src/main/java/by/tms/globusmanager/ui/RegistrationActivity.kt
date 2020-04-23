@@ -1,8 +1,6 @@
 package by.tms.globusmanager.ui
 
 import android.Manifest
-import android.accounts.AccountAuthenticatorActivity
-import android.accounts.AccountManager
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
@@ -13,10 +11,10 @@ import android.text.TextWatcher
 import by.tms.globusmanager.R
 import by.tms.globusmanager.account.AccountHelper
 import by.tms.globusmanager.permissions.PermissionsHelper
-import by.tms.globusmanager.settings.SettingsHelper
+import by.tms.globusmanager.open_classes.CustomAccountAuthenticatorActivity
 import kotlinx.android.synthetic.main.activity_registration.*
 
-class RegistrationActivity : AccountAuthenticatorActivity() {
+class RegistrationActivity : CustomAccountAuthenticatorActivity() { //
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,33 +88,11 @@ class RegistrationActivity : AccountAuthenticatorActivity() {
     private fun onTokenReceived(
         login: String
     ) {
-        val account = AccountHelper.initAccount(login) ?: return
-
-        val am = AccountManager.get(this)
-        val password = "123"
-        val token = "C9D3E678-3036-40B4-9670-140AEDEBAAFF"
-        val result = Bundle()
-
-        if (am.addAccountExplicitly(account, password, Bundle())) {
-            result.putString(AccountManager.KEY_ACCOUNT_NAME, account.name)
-            result.putString(AccountManager.KEY_ACCOUNT_TYPE, account.type)
-            result.putString(AccountManager.KEY_AUTHTOKEN, token)
-            am.setAuthToken(account, account.type, token)
-        } else {
-            result.putString(
-                AccountManager.KEY_ERROR_MESSAGE,
-                getString(R.string.register_account_already_exists)
-            )
-        }
+        val result = AccountHelper.registry(login) ?: return
         setAccountAuthenticatorResult(result)
-        SettingsHelper.saveAccount(account.name)
 //        setResult(Activity.RESULT_OK)
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()
-    }
-
-    companion object {
-        const val EXTRA_TOKEN_TYPE = "com.globus.manager.EXTRA_TOKEN_TYPE"
     }
 }
