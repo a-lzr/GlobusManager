@@ -1,6 +1,14 @@
 <resources>
-    <string name="app_name">GlobusManager</string>
-    <string name="authenticator_label">Globus</string>
+    <string name="app_name">Globus Manager</string>
+    <string name="authenticator_label">Globus Manager</string>
+
+    <string name="register_title">Регистрация</string>
+    <string name="register_login">Номер телефона</string>
+    <string name="register_login_info">Введите номер телефона</string>
+    <string name="register_login_text_default">+375</string>
+    <string name="register_login_empty">Поле не может быть пустым</string>
+    <string name="register_do">Зарегистрировать</string>
+    <string name="register_account_already_exists">Аккаунт с таким номером уже существует</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

@@ -2,6 +2,7 @@ package by.tms.globusmanager
 
 import android.app.Application
 import android.content.Context
+import android.content.res.Resources
 import by.tms.globusmanager.settings.SettingsHelper
 
 class MainApplication : Application() {
@@ -10,10 +11,14 @@ class MainApplication : Application() {
         super.onCreate()
         appContext = applicationContext
 
-        SettingsHelper.initThemeSettings(appContext)
+        SettingsHelper.loadSettings()
     }
 
     companion object {
         lateinit var appContext: Context
+
+        fun getResources() : Resources {
+            return appContext.resources
+        }
     }
 }
