@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="account_type" type="string">by.tms.globusmanager</item>
-    <item name="authority" type="string">by.tms.globusmanager.sync.provider</item>
+    <item name="account_type" type="string">by.a_lzr.globusmanager</item>
+    <item name="authority" type="string">by.a_lzr.globusmanager.sync.provider</item>
+    <item name="sync_broadcast_action" type="string">by.a_lzr.globusmanager.sync.broadcast.action</item>
+
     <item name="mime_type" type="string">vnd.android.cursor.item/vnd.my.contact</item>
 
     <item name="settings_account_code" type="string">settings_account</item>

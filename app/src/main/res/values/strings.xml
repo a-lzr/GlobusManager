@@ -17,7 +17,12 @@
     <string name="synchronize_info_after">Для операции необходимо подключение к интернету</string>
     <string name="synchronize_do">Синхронизировать данные</string>
     <string name="synchronize_start_hint">Синхронизация данных запущена</string>
+    <string name="synchronize_stop_hint">Синхронизация данных остановлена</string>
+    <string name="synchronize_success_hint">Синхронизация данных успешно заверешена</string>
+    <string name="synchronize_fail_hint">Синхронизация данных не заверешена. Повторите попытку.</string>
     <string name="synchronize_wait_hint">Ожидайте завершения операции</string>
+    <string name="synchronize_break_info">Синхронизация данных еще не завершена</string>
+    <string name="synchronize_break_confirm">Вы уверены, что хотите прервать текущую операцию?</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -50,4 +55,7 @@
     <string name="settings_theme_set">Установлена тема оформления</string>
 
     <string name="menu_info">Справка</string>
+
+    <string name="alert_action_yes">Да</string>
+    <string name="alert_action_no">Нет</string>
 </resources>
