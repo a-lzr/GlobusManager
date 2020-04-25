@@ -5,9 +5,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.ContactsContract
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -25,6 +23,7 @@ class ContactsFacesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setHasOptionsMenu(true);
         viewModel = ViewModelProvider(this).get(ContactsFacesViewModel::class.java)
 
         return inflater.inflate(R.layout.fragment_contacts_faces, container, false)
@@ -37,10 +36,10 @@ class ContactsFacesFragment : Fragment() {
         if (context == null) return
 
         if (ActivityCompat.checkSelfPermission(
-                context!!,
+                requireContext(),
                 Manifest.permission.READ_CONTACTS
             ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                context!!,
+                requireContext(),
                 Manifest.permission.WRITE_CONTACTS
             ) != PackageManager.PERMISSION_GRANTED
         ) {
@@ -56,7 +55,7 @@ class ContactsFacesFragment : Fragment() {
                 + " IS NOT NULL")
 
         val cursorLoader = CursorLoader(
-            context!!, queryUri,
+            requireContext(), queryUri,
             projection, selection, null, null
         )
 
@@ -78,17 +77,30 @@ class ContactsFacesFragment : Fragment() {
         textView.text = myContacts
 
         add_btn.setOnClickListener {
-            with (context as MainActivityListener) {
+            with(context as MainActivityListener) {
                 addContact()
                 textView.text = ""
             }
         }
 
         get_btn.setOnClickListener {
-            with (context as MainActivityListener) {
+            with(context as MainActivityListener) {
                 textView.text = getContacts().toString()
             }
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.main_menu_contacts, menu);
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return super.onOptionsItemSelected(item)
+        when (item.itemId) {
+            R.id.action_contacts_sync -> {
+
+            }
+        }
+    }
 }

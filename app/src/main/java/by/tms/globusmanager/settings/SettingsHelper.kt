@@ -12,6 +12,8 @@ object SettingsHelper {
     private val storage =
         PreferenceManager.getDefaultSharedPreferences(GlobusApplication.appContext)
 
+    fun checkSynchronize(): Boolean = false
+
     fun loadSettings() {
         loadAccountSettings()
         loadThemeSettings()

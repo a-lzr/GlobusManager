@@ -2,7 +2,7 @@
     <string name="app_name">Globus Manager</string>
     <string name="authenticator_label">Globus Manager</string>
 
-    <string name="register_title">Регистрация</string>
+    <string name="register_header">Регистрация</string>
     <string name="register_login">Номер телефона</string>
     <string name="register_login_info">Введите номер телефона</string>
     <string name="register_login_text_default">+375</string>
@@ -10,12 +10,23 @@
     <string name="register_do">Зарегистрировать</string>
     <string name="register_account_already_exists">Аккаунт с таким номером уже существует</string>
 
+    <string name="synchronize_header">Синхронизация данных</string>
+    <string name="synchronize_title_before">Для продолжения запустите синхронизацию данных</string>
+    <string name="synchronize_info_before">Нажмите на кнопку по середине экрана</string>
+    <string name="synchronize_title_after">Ожидайте, идет синхронизация данных…</string>
+    <string name="synchronize_info_after">Для операции необходимо подключение к интернету</string>
+    <string name="synchronize_do">Синхронизировать данные</string>
+    <string name="synchronize_start_hint">Синхронизация данных запущена</string>
+    <string name="synchronize_wait_hint">Ожидайте завершения операции</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
+
+    <string name="main_menu_action_sync">Синхронизировать данные</string>
+    <string name="main_menu_action_settings">Настройки</string>
 
     <string name="menu_main">Главная</string>
     <string name="menu_main_control">Контрольные сообщения</string>
@@ -31,7 +42,7 @@
 
     <string name="menu_settings">Настройки</string>
     <string name="settings">Настройки</string>
-    <string name="settings_theme_title">Темы оформления</string>
+    <string name="settings_theme_header">Темы оформления</string>
     <string name="settings_theme_dialog">Выберите тему оформления</string>
     <string name="settings_theme_classic_name">Классическая</string>
     <string name="settings_theme_dark_name">Тёмная</string>

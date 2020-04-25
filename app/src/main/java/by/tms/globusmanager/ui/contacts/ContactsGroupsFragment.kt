@@ -1,12 +1,15 @@
 package by.tms.globusmanager.ui.contacts
 
+import android.accounts.Account
+import android.accounts.AccountManager
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import by.tms.globusmanager.GlobusApplication
 import by.tms.globusmanager.R
+import kotlinx.android.synthetic.main.fragment_contacts_faces.*
+import kotlinx.android.synthetic.main.fragment_contacts_groups.*
 
 class ContactsGroupsFragment : Fragment() {
 
@@ -17,6 +20,7 @@ class ContactsGroupsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setHasOptionsMenu(true);
         viewModel = ViewModelProvider(this).get(ContactsGroupsViewModel::class.java)
 
         return inflater.inflate(R.layout.fragment_contacts_groups, container, false)
@@ -25,6 +29,27 @@ class ContactsGroupsFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        val am = AccountManager.get(GlobusApplication.appContext)
+        val list: Array<Account> = am.accounts
+        var s: String = ""
+
+        list.forEach {
+            s = s.plus(it.name).plus(" ")
+        }
+        textView2.text = s
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.main_menu_groups, menu);
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return super.onOptionsItemSelected(item)
+        when (item.itemId) {
+            R.id.action_groups_sync -> {
+
+            }
+        }
+    }
 }

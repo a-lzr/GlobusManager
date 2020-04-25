@@ -8,7 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
-import by.tms.globusmanager.ui.RegistrationActivity
+import by.tms.globusmanager.ui.system.RegistrationActivity
 
 
 class Authenticator(val context: Context) : AbstractAccountAuthenticator(context) {

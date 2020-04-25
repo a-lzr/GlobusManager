@@ -1,15 +1,16 @@
 package by.tms.globusmanager.ui
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import by.tms.globusmanager.R
 import by.tms.globusmanager.account.AccountHelper
-import java.lang.Thread.sleep
-
+import by.tms.globusmanager.activities.ActivityHelper
+import by.tms.globusmanager.settings.SettingsHelper
+import by.tms.globusmanager.ui.system.RegistrationActivity
+import by.tms.globusmanager.ui.system.SynchronizeActivity
 
 class SplashActivity : AppCompatActivity() {
 
@@ -19,16 +20,20 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        if (AccountHelper.checkRegistry()) {
-            sleep(2000)
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+        if (!AccountHelper.checkRegistry()) {
+            ActivityHelper.startActivity(this, RegistrationActivity::class.java)
             finish()
             return
         }
 
-        val intent = Intent(this, RegistrationActivity::class.java)
-        startActivity(intent)
+        if (!SettingsHelper.checkSynchronize()) {
+            ActivityHelper.startActivity(this, SynchronizeActivity::class.java)
+            finish()
+            return
+        }
+
+//        sleep(2000)
+        ActivityHelper.startActivity(this, MainActivity::class.java)
         finish()
     }
 }

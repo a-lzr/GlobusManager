@@ -65,4 +65,7 @@ object AccountHelper {
         } else
             false
     }
+
+    fun getAccountName(): String = account!!.name
+    fun getAccountType(): String = account!!.type
 }

@@ -3,10 +3,12 @@ package by.tms.globusmanager.ui
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.ContentProviderOperation
+import android.content.ContentValues
+import android.content.Context
 import android.os.Bundle
 import android.provider.ContactsContract
+import android.provider.ContactsContract.CommonDataKinds.Phone
 import android.util.Log
-import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
@@ -16,7 +18,11 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.*
 import by.tms.globusmanager.MainActivityListener
 import by.tms.globusmanager.R
+import by.tms.globusmanager.account.AccountHelper
 import by.tms.globusmanager.permissions.PermissionsHelper
+import by.tms.globusmanager.settings.SettingsHelper
+import by.tms.globusmanager.sync.BatchOperation
+import by.tms.globusmanager.sync.ContactOperations
 import com.google.android.material.navigation.NavigationView
 
 
@@ -82,10 +88,17 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
+    /*
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        return super.onPrepareOptionsMenu(menu)
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
+        menu.findItem(R.id.action_sync).isVisible = false
         return true
     }
+     */
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_context_fragment)
@@ -152,41 +165,237 @@ class MainActivity : AppCompatActivity(),
         return true
     } */
 
+    fun addContact2(
+        context: Context?, accountName: String?,
+        groupId: Long, inSync: Boolean, batchOperation: BatchOperation?
+    ) {
+
+        // Put the data in the contacts provider
+        val contactOp = ContactOperations.createNewContact(
+            this, 1, accountName, inSync, batchOperation!!
+        )
+        contactOp.addName(
+            "ALEX1",
+            "ALEX2",
+            "ALEX3"
+        )
+            .addEmail("test.alexander666@gmail.com")
+            .addPhone("+3756666666", Phone.TYPE_MOBILE)
+//            .addPhone(rawContact.getHomePhone(), Phone.TYPE_HOME)
+        //          .addPhone(rawContact.getOfficePhone(), Phone.TYPE_WORK)
+//            .addGroupMembership(groupId)
+//            .addAvatar(rawContact.getAvatarUrl())
+
+        // If we have a serverId, then go ahead and create our status profile.
+        // Otherwise skip it - and we'll create it after we sync-up to the
+        // server later on.
+        contactOp.addProfileAction(1)
+//        if (rawContact.getServerContactId() > 0) {
+//            contactOp.addProfileAction(rawContact.getServerContactId())
+//        }
+    }
+
     override fun addContact() {
-        val op = ArrayList<ContentProviderOperation>()
+/*        val resolver: ContentResolver = contentResolver;
+        val batchOperation = BatchOperation(this, resolver)
+        addContact2(
+            this, AccountHelper.getAccountName(), 1, true, batchOperation
+        )
+        if (batchOperation.size() >= 50) {
+            batchOperation.execute();
+        }
+        batchOperation.execute(); */
+
+//        setAndroidAccountSyncEnabled(true);
+
+/*        val op = ArrayList<ContentProviderOperation>()
 
         op.add(
-            ContentProviderOperation.newInsert(ContactsContract.RawContacts.CONTENT_URI)
-                .withValue(ContactsContract.RawContacts.ACCOUNT_TYPE, "com.globus")
-                .withValue(ContactsContract.RawContacts.ACCOUNT_NAME, "0001A")
+            ContentProviderOperation.newInsert(RawContacts.CONTENT_URI)
+                .withValue(RawContacts.ACCOUNT_NAME, AccountHelper.getAccountName())
+                .withValue(RawContacts.ACCOUNT_TYPE, AccountHelper.getAccountType())
+                // .withValue(RawContacts.SOURCE_ID, 12345)
+                // .withValue(RawContacts.AGGREGATION_MODE,
+                // RawContacts.AGGREGATION_MODE_DISABLED)
                 .build()
         )
 
         op.add(
-            ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+            ContentProviderOperation
+                .newInsert(Settings.CONTENT_URI)
+                .withValue(RawContacts.ACCOUNT_NAME, AccountHelper.getAccountName())
+                .withValue(RawContacts.ACCOUNT_TYPE, AccountHelper.getAccountType())
+                .withValue(Settings.UNGROUPED_VISIBLE, 1)
+                .build()
+        )
+
+        op.add(
+            ContentProviderOperation
+                .newInsert(ContactsContract.Data.CONTENT_URI)
                 .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
-                .withValue(
-                    ContactsContract.Data.MIMETYPE,
-                    ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE
-                )
-                .withValue(
-                    ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME,
-                    "Alexander XXXX"
-                )
+                .withValue(ContactsContract.Data.MIMETYPE, StructuredName.CONTENT_ITEM_TYPE)
+                .withValue(StructuredName.GIVEN_NAME, contact.getFullname())
+                .withValue(StructuredName.FAMILY_NAME, contact.getFullname())
                 .build()
         )
+
         op.add(
-            ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+            ContentProviderOperation
+                .newInsert(ContactsContract.Data.CONTENT_URI)
                 .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
                 .withValue(
                     ContactsContract.Data.MIMETYPE,
                     ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE
                 )
-                .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, "+37533333333333")
+                .withValue(
+                    ContactsContract.CommonDataKinds.Phone.NUMBER,
+                    contact.getPhoneNumber()
+                ).build()
+        )
+
+        op.add(
+            ContentProviderOperation
+                .newInsert(ContactsContract.Data.CONTENT_URI)
+                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+                .withValue(
+                    ContactsContract.Data.MIMETYPE,
+                    ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE
+                )
+                .withValue(
+                    ContactsContract.CommonDataKinds.Email.DATA,
+                    contact.getEmail()
+                ).build()
+        )
+
+        op.add(
+            ContentProviderOperation
+                .newInsert(ContactsContract.Data.CONTENT_URI)
+                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+                .withValue(ContactsContract.Data.MIMETYPE, MIMETYPE)
+                .withValue(ContactsContract.Data.DATA1, contact.getFullname())
+                .withValue(ContactsContract.Data.DATA2, contact.getEmail())
+                .withValue(ContactsContract.Data.DATA3, contact.getHomeAddress()).build()
+        )
+        try {
+//            val results: Array<ContentProviderResult> = resolver.applyBatch(
+//                ContactsContract.AUTHORITY, ops
+//            )
+
+            contentResolver.applyBatch(ContactsContract.AUTHORITY, op)
+            Log.e("TAG!", "SUCCESS")
+//          if (results.size == 0) AppLog.d(FragmentActivity.TAG, "Failed to add.")
+        } catch (e: Exception) {
+            Log.e("TAG!", e.message)
+//            Log.e(FragmentActivity.TAG, e.message, e)
+        }
+*/
+        val values = ContentValues()
+        contentResolver.insert(ContactsContract.Profile.CONTENT_RAW_CONTACTS_URI, values)
+
+/*
+        val values = ContentValues()
+        values.put(ContactsContract.CommonDataKinds.GroupMembership.RAW_CONTACT_ID, contactId)
+        values.put(ContactsContract.CommonDataKinds.GroupMembership.GROUP_ROW_ID, groupId)
+        values.put(
+            ContactsContract.CommonDataKinds.GroupMembership.MIMETYPE,
+            ContactsContract.CommonDataKinds.GroupMembership.CONTENT_ITEM_TYPE
+        )
+        mResolver.insert(ContactsContract.Data.CONTENT_URI, values)/
+ */
+
+        val op = ArrayList<ContentProviderOperation>()
+
+        op.add(
+            ContentProviderOperation.newInsert(ContactsContract.RawContacts.CONTENT_URI)
+                .withValue(
+                    ContactsContract.RawContacts.ACCOUNT_NAME,
+                    AccountHelper.getAccountName()
+                )
+                .withValue(
+                    ContactsContract.RawContacts.ACCOUNT_TYPE,
+                    AccountHelper.getAccountType()
+                )
+                .withValue(
+                    ContactsContract.RawContacts.AGGREGATION_MODE,
+                    ContactsContract.RawContacts.AGGREGATION_MODE_DEFAULT
+                )
+//                .withValue(ContactsContract.RawContacts.SYNC1, "Vasia")
+                //       .withValue(
+                //                   ContactsContract.Data.MIMETYPE,
+                //                   SettingsHelper.getPreferenceString(R.string.mime_type)
+                //                    ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE
+                //     )
+                .build()
+        )
+
+        /*
+        op.add(ContentProviderOperation.newInsert(ContactsContract.RawContacts.CONTENT_URI)
+            .withValue(RawContacts.ACCOUNT_NAME, AccountHelper.getAccountName())
+            .withValue(RawContacts.ACCOUNT_TYPE, AccountHelper.getAccountType())
+            .withValue(ContactsContract.RawContacts.UNGROUPED_VISIBLE, 1)
+            .build());
+        */
+
+/*
+        op.add(
+            ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+                .withValue(
+                    ContactsContract.Data.MIMETYPE,
+                    //                    SettingsHelper.getPreferenceString(R.string.mime_type)
+                    ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE
+                )
+                .withValue(
+                    ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME,
+                    "Alexander 5555"
+                )
+                .build()
+        )
+ */
+        /*
+        op.add(
+            ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+                .withValue(
+                    ContactsContract.Data.MIMETYPE,
+    //                    SettingsHelper.getPreferenceString(R.string.mime_type)
+                    ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE
+                )
+                .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, "+37532323232")
                 .withValue(
                     ContactsContract.CommonDataKinds.Phone.TYPE,
                     ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE
                 )
+                .build()
+        )
+        */
+
+        op.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+            .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+            .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.Profile.CONTENT_RAW_CONTACTS_URI)
+            .withValue(ContactsContract.Profile.IS_USER_PROFILE, 1)
+            .build())
+
+        op.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+            .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+            .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)
+            .withValue(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME, "Alexander 5555")
+            .build());
+
+        op.add(
+            ContentProviderOperation
+                .newInsert(ContactsContract.Data.CONTENT_URI)
+                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+                .withValue(
+                    ContactsContract.Data.MIMETYPE,
+                    SettingsHelper.getPreferenceString(R.string.mime_type)
+                )
+//                        ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)
+                .withValue(ContactsContract.Data.DATA2, "Globus Name")
+                .withValue(ContactsContract.Data.DATA3, "User Connected with")
+//                .withValue(ContactsContract.Data.DATA1, "Vasia")
+//                .withValue(ContactsContract.Data.DATA2, "Globus Manager")
+//                .withValue(ContactsContract.Data.DATA3, "home address")
                 .build()
         )
 
@@ -211,7 +420,7 @@ class MainActivity : AppCompatActivity(),
         val phoneCursor = contentResolver.query(
             ContactsContract.RawContacts.CONTENT_URI,
             null,
-            ContactsContract.RawContacts.ACCOUNT_TYPE + " = 'com.globus'",
+            ContactsContract.RawContacts.ACCOUNT_TYPE + " = '" + AccountHelper.getAccountType() + "'",
             null,
             null
         )

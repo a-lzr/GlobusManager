@@ -1,17 +1,18 @@
-package by.tms.globusmanager.ui
+package by.tms.globusmanager.ui.system
 
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.telephony.TelephonyManager
 import android.text.Editable
 import android.text.TextWatcher
 import by.tms.globusmanager.R
 import by.tms.globusmanager.account.AccountHelper
+import by.tms.globusmanager.activities.ActivityHelper
 import by.tms.globusmanager.permissions.PermissionsHelper
 import by.tms.globusmanager.open_classes.CustomAccountAuthenticatorActivity
+import by.tms.globusmanager.ui.PERMISSION_PHONE_REQUEST_CODE
 import kotlinx.android.synthetic.main.activity_registration.*
 
 class RegistrationActivity : CustomAccountAuthenticatorActivity() { //
@@ -91,8 +92,8 @@ class RegistrationActivity : CustomAccountAuthenticatorActivity() { //
         val result = AccountHelper.registry(login) ?: return
         setAccountAuthenticatorResult(result)
 //        setResult(Activity.RESULT_OK)
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
+
+        ActivityHelper.startActivity(this, SynchronizeActivity::class.java)
         finish()
     }
 }

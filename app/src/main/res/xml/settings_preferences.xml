@@ -7,6 +7,6 @@
         android:entries="@array/settings_theme_names"
         android:entryValues="@array/settings_theme_codes"
         android:key="@string/settings_theme_code"
-        android:title="@string/settings_theme_title"
+        android:title="@string/settings_theme_header"
         app:useSimpleSummaryProvider="true" />
 </PreferenceScreen>

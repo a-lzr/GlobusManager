@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContactsAccountType xmlns:android="http://schemas.android.com/apk/res/android"
+    inviteContactActionLabel="Add to Sample SyncAdaper"
+    inviteContactActivity="by.tms.globusmanager.activities.InviteContactActivity"
+    viewContactNotifyService="by.tms.globusmanager.notify.NotifyService"
+    viewGroupActionLabel="Show sample group details"
+    viewGroupActivity="by.tms.globusmanager.activities.ViewGroupActivity"
+    viewStreamItemActivity="by.tms.globusmanager.activities.ViewStreamItemActivity"
+    viewStreamItemPhotoActivity="by.tms.globusmanager.activities.ViewStreamItemPhotoActivity">
+    <ContactsDataKind
+        android:icon="@drawable/ic_launcher"
+        android:smallIcon="@drawable/ic_launcher"
+        android:mimeType="@string/mime_type"
+        android:summaryColumn="data2"
+        android:detailColumn="data3"
+        android:detailSocialSummary="true" >
+    </ContactsDataKind>
+
+</ContactsAccountType>

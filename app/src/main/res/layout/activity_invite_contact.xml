@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <TextView
+        android:text="Congratulations! The user wants to add the contact
+        to the amazing Sample SyncAdapter social network. If this was a real app, it should now
+        make best efforts to add the contact to this network. This would probably involve
+        looking up the person on the network, inviting if he is not there already and syncing
+        the new contact down.
+
+        Ideally, when the user gets back to the People app, the new contact should already
+        be there, enriching the original contact.
+
+        This is the information we got to lookup the contact:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/invite_contact_uri"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</LinearLayout>

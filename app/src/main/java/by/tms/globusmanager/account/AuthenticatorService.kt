@@ -11,10 +11,8 @@ class AuthenticatorService : Service() {
     override fun onCreate() {
         super.onCreate()
 
-        authenticator = Authenticator(applicationContext);
+        authenticator = Authenticator(this)
     }
 
-    override fun onBind(intent: Intent): IBinder {
-        return authenticator.iBinder;
-    }
+    override fun onBind(intent: Intent): IBinder = authenticator.iBinder
 }
