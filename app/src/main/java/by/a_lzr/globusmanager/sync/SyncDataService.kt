@@ -3,16 +3,13 @@ package by.a_lzr.globusmanager.sync
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
-import androidx.core.app.NotificationCompat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlin.properties.Delegates
-import java.lang.Thread.sleep
-import by.a_lzr.globusmanager.NOTIFY_CHANNEL_ID
-import by.a_lzr.globusmanager.settings.SettingsHelper
 import by.a_lzr.globusmanager.R
-
+import by.a_lzr.globusmanager.notify.NotifyHelper
+import by.a_lzr.globusmanager.settings.SettingsHelper
 
 class SyncDataService : Service() {
     private var complete = false
@@ -34,11 +31,10 @@ class SyncDataService : Service() {
         else {
             task = intent.getIntExtra(SYNC_PARAM_TASK, 0)
 
-            val notification = NotificationCompat.Builder(this, NOTIFY_CHANNEL_ID)
-                .setContentTitle("Синхронизвция данных")
-                .setContentText("1234")
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
-                .build()
+            val notification = NotifyHelper.buildNotify(
+                this,
+                SettingsHelper.getPreferenceString(R.string.synchronize_notify_title)
+            )
             startForeground(1, notification)
 
             when (task) {
@@ -52,13 +48,11 @@ class SyncDataService : Service() {
         sendRespond(task, SYNC_STATUS_START)
 
         val job = CoroutineScope(Dispatchers.Default).launch {
-            sleep(5000)
-            sendRespond(task, SYNC_STATUS_FINISH)
-            complete = true
+            if (SyncHelper.syncAll()) {
+                sendRespond(task, SYNC_STATUS_FINISH)
+                complete = true
+            }
             stopSelf(startId)
-//            val deferred1 = async(Dispatchers.Default) { getFirstValue() }
-//            val deferred2 = async(Dispatchers.IO) { getSecondValue() }
-//            useValues(deferred1.await(), deferred2.await())
         }
     }
 

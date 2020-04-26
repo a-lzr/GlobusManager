@@ -3,8 +3,8 @@ package by.a_lzr.globusmanager.sync
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import by.a_lzr.globusmanager.settings.SettingsHelper
 import by.a_lzr.globusmanager.R
+import by.a_lzr.globusmanager.settings.SettingsHelper
 import by.a_lzr.globusmanager.toast.ToastHelper
 
 const val SYNC_CODE_TASK1 = 1

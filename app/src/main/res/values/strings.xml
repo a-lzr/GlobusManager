@@ -23,6 +23,7 @@
     <string name="synchronize_wait_hint">Ожидайте завершения операции</string>
     <string name="synchronize_break_info">Синхронизация данных еще не завершена</string>
     <string name="synchronize_break_confirm">Вы уверены, что хотите прервать текущую операцию?</string>
+    <string name="synchronize_notify_title">Синхронизация данных</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
