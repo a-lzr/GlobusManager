@@ -1,4 +1,4 @@
-package by.a_lzr.globusmanager.ui.main.messages
+package by.a_lzr.globusmanager.ui.main.messages.details
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,12 +8,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import by.a_lzr.globusmanager.R
 import by.a_lzr.globusmanager.storage.entity.Message
+import by.a_lzr.globusmanager.ui.main.messages.MessagesCollection
 
 
 private const val VIEW_TYPE_MESSAGE_SENT = 1
 private const val VIEW_TYPE_MESSAGE_RECEIVED = 2
 
-class MessagesAdapter:  RecyclerView.Adapter<MessagesAdapter.MessagesViewHolder>() {
+class MessagesDetailsAdapter:  RecyclerView.Adapter<MessagesDetailsAdapter.MessagesViewHolder>() {
 
     open class MessagesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 

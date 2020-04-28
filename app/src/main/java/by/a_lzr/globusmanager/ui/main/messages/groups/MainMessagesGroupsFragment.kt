@@ -12,11 +12,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import by.a_lzr.globusmanager.R
-import by.a_lzr.globusmanager.ui.main.messages.MessagesAdapter
+import by.a_lzr.globusmanager.ui.main.messages.MainMessagesFragmentListener
 import by.a_lzr.globusmanager.ui.main.messages.MessagesCollection
 import kotlinx.android.synthetic.main.fragment_main_messages_groups.*
 
-class MainMessagesGroupsFragment : Fragment() {
+class MainMessagesGroupsFragment : Fragment(), MainMessagesGroupsFragmentListener {
 
     private lateinit var viewModel: MainMessagesGroupsViewModel
 
@@ -34,11 +34,18 @@ class MainMessagesGroupsFragment : Fragment() {
 
         CoroutineScope(Dispatchers.IO).launch {
             withContext(Dispatchers.Main) {
-                MessagesCollection.instance.loadMessages()
-                messagesGroupsView.adapter = MessagesAdapter()
+                MessagesCollection.instance.loadGroups()
+                messagesGroupsView.adapter =
+                    MessagesGroupsAdapter(this@MainMessagesGroupsFragment)
                 messagesGroupsView.layoutManager = LinearLayoutManager(messagesGroupsView.context)
                 messagesGroupsView.setHasFixedSize(true)
             }
+        }
+    }
+
+    override fun showDetails(personId: Long) {
+        with(parentFragment as MainMessagesFragmentListener) {
+            showDetails(personId)
         }
     }
 }

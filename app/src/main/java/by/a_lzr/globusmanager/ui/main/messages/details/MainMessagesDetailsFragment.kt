@@ -8,9 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.a_lzr.globusmanager.R
-import by.a_lzr.globusmanager.ui.main.messages.MessagesAdapter
 import by.a_lzr.globusmanager.ui.main.messages.MessagesCollection
-import kotlinx.android.synthetic.main.fragment_main_messages.*
 import kotlinx.android.synthetic.main.fragment_main_messages_details.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -36,7 +34,8 @@ class MainMessagesDetailsFragment : Fragment() {
         CoroutineScope(Dispatchers.IO).launch {
             withContext(Dispatchers.Main) {
                 MessagesCollection.instance.loadMessages()
-                messagesDetailsView.adapter = MessagesAdapter()
+                messagesDetailsView.adapter =
+                    MessagesDetailsAdapter()
                 messagesDetailsView.layoutManager = LinearLayoutManager(messagesDetailsView.context)
                 messagesDetailsView.setHasFixedSize(true)
             }

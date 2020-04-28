@@ -23,14 +23,15 @@ import by.a_lzr.globusmanager.permissions.PermissionsHelper
 import by.a_lzr.globusmanager.settings.SettingsHelper
 import by.a_lzr.globusmanager.deprecated.sync.BatchOperation
 import by.a_lzr.globusmanager.deprecated.sync.ContactOperations
+import by.a_lzr.globusmanager.toast.ToastHelper
+import by.a_lzr.globusmanager.ui.main.messages.MainMessagesFragmentListener
 import com.google.android.material.navigation.NavigationView
 
 
 const val PERMISSION_CONTACT_REQUEST_CODE = 1
 const val PERMISSION_PHONE_REQUEST_CODE = 2
 
-class MainActivity : AppCompatActivity(),
-    MainActivityListener {
+class MainActivity : AppCompatActivity(), MainActivityListener {
 
     private lateinit var navView: NavigationView
     private lateinit var navController: NavController

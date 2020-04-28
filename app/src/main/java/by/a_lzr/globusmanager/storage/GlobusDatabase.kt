@@ -2,6 +2,7 @@ package by.a_lzr.globusmanager.storage
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import by.a_lzr.globusmanager.storage.entity.*
 
 
@@ -23,6 +24,7 @@ import by.a_lzr.globusmanager.storage.entity.*
     ],
     version = DB_VERSION
 )
+//@TypeConverters(DataConverters::class)
 abstract class GlobusDatabase : RoomDatabase() {
     abstract val personDao: PersonDao
 

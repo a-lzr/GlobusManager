@@ -6,17 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 
 import by.a_lzr.globusmanager.R
+import by.a_lzr.globusmanager.ui.main.messages.details.MainMessagesDetailsFragment
 import by.a_lzr.globusmanager.ui.main.messages.groups.MainMessagesGroupsFragment
 import kotlinx.android.synthetic.main.fragment_main_messages.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
-class MainMessagesFragment : Fragment() {
+class MainMessagesFragment : Fragment(), MainMessagesFragmentListener {
 
     private lateinit var viewModel: MainMessagesViewModel
 
@@ -32,11 +28,12 @@ class MainMessagesFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        childFragmentManager
-            .beginTransaction()
-            .replace(main_messages_fragment_widget.id, MainMessagesGroupsFragment())
-            .commit()
-
+        showGroups()
+//        showDetails(2)
+//        childFragmentManager
+//            .beginTransaction()
+//            .replace(main_messages_fragment_widget.id, MainMessagesGroupsFragment())
+//            .commit()
 
 
 /*        CoroutineScope(Dispatchers.IO).launch {
@@ -48,5 +45,20 @@ class MainMessagesFragment : Fragment() {
                 messagesView.setHasFixedSize(true)
             }
         } */
+    }
+
+    override fun showGroups() {
+        childFragmentManager
+            .beginTransaction()
+            .replace(main_messages_fragment_widget.id, MainMessagesGroupsFragment())
+            .commit()
+    }
+
+    override fun showDetails(personID: Long) {
+        MessagesCollection.instance.personId = personID
+        childFragmentManager
+            .beginTransaction()
+            .replace(main_messages_fragment_widget.id, MainMessagesDetailsFragment())
+            .commit()
     }
 }

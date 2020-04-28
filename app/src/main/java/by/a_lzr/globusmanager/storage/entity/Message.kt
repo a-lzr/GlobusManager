@@ -2,6 +2,7 @@ package by.a_lzr.globusmanager.storage.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.util.*
 
 @Entity
 data class Message (
@@ -9,7 +10,7 @@ data class Message (
     val id: Long,
     val personId: Long,
     val message: String,
-    val date: String,
+    val date: Long,
     val outType: Boolean,
     val status: Byte
 )

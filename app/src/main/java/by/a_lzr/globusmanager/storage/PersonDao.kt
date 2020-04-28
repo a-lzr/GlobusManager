@@ -85,6 +85,17 @@ interface PersonDao {
     @Query("SELECT * FROM Message ")
     suspend fun getAllMessages(): List<Message>
 
+    @Query(
+        "SELECT * " +
+                "FROM Message " +
+                "WHERE id in (SELECT Max(id) FROM Message GROUP BY personId) " +
+                "ORDER BY date DESC"
+    )
+    suspend fun getAllMessagesGroups(): List<Message>
+
+    @Query("SELECT * FROM Message WHERE personId = :id ORDER BY date")
+    suspend fun getMessagesByPerson(id: Long): List<Message>
+
 //    @Query("SELECT p.id, p.name FROM Person AS p LEFT JOIN ")
 //    suspend fun getAllContactInfo(): List<ContactInfo>
 
