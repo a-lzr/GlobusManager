@@ -1,4 +1,4 @@
-package by.a_lzr.globusmanager.ui.main
+package by.a_lzr.globusmanager.ui.main.control
 
 import android.os.Bundle
 import android.view.*

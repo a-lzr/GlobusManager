@@ -7,6 +7,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.fragment_main.*
 import by.a_lzr.globusmanager.R
+import by.a_lzr.globusmanager.ui.main.control.MainControlFragment
+import by.a_lzr.globusmanager.ui.main.messages.MainMessagesFragment
 
 class MainFragment : Fragment() {
 

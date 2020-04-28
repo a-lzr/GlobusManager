@@ -33,8 +33,12 @@ class SyncDataService : Service() {
 
             val notification = NotifyHelper.buildNotify(
                 this,
-                SettingsHelper.getPreferenceString(R.string.synchronize_notify_title)
+                SettingsHelper.getPreferenceString(R.string.synchronize_notify_title),
+                SettingsHelper.getPreferenceString(R.string.synchronize_notify_start),
+                R.drawable.ic_main_menu_sync
             )
+
+//            notification.setContentText("text")
             startForeground(1, notification)
 
             when (task) {

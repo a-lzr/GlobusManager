@@ -27,11 +27,11 @@ object NotifyHelper {
         }
     }
 
-    fun buildNotify(context: Context, title: String): Notification {
+    fun buildNotify(context: Context, title: String, body:String, resId: Int): Notification {
         return NotificationCompat.Builder(context, NOTIFY_CHANNEL_ID)
             .setContentTitle(title)
-//            .setContentText("text")
-            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setContentText(body)
+            .setSmallIcon(resId)
             .build()
     }
 }

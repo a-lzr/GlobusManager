@@ -10,9 +10,17 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.loader.content.CursorLoader
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.room.Database
 import by.a_lzr.globusmanager.MainActivityListener
 import by.a_lzr.globusmanager.R
+import by.a_lzr.globusmanager.storage.DatabaseHelper
+import by.a_lzr.globusmanager.sync.SyncHelper
 import kotlinx.android.synthetic.main.fragment_contacts_faces.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class ContactsFacesFragment : Fragment() {
@@ -31,9 +39,17 @@ class ContactsFacesFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        CoroutineScope(Dispatchers.IO).launch {
+            withContext(Dispatchers.Main) {
+                ContactsCollection.instance.loadContacts()
+                contactsView.adapter = ContactsAdapter()
+                contactsView.layoutManager = LinearLayoutManager(contactsView.context)
+                contactsView.setHasFixedSize(true)
+            }
+        }
 
 //        ContactsContract.RawContacts.
-        if (context == null) return
+/*        if (context == null) return
 
         if (ActivityCompat.checkSelfPermission(
                 requireContext(),
@@ -87,7 +103,7 @@ class ContactsFacesFragment : Fragment() {
             with(context as MainActivityListener) {
                 textView.text = getContacts().toString()
             }
-        }
+        } */
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -99,7 +115,7 @@ class ContactsFacesFragment : Fragment() {
         return super.onOptionsItemSelected(item)
         when (item.itemId) {
             R.id.action_contacts_sync -> {
-
+                SyncHelper.updatePerson()
             }
         }
     }

@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="by.a_lzr.globusmanager.ui.main.messages.MainMessagesFragment">
+    tools:context="by.a_lzr.globusmanager.ui.main.messages.details.MainMessagesDetailsFragment">
 
-    <FrameLayout
-        android:id="@+id/main_messages_fragment_widget"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/messagesDetailsView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintBottom_toTopOf="@id/main_tab_layout"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
 </FrameLayout>

@@ -9,9 +9,8 @@
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="100dp"
         android:text="@string/menu_contacts_faces"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/get_btn" />
 
     <Button
@@ -27,5 +26,14 @@
         android:layout_height="wrap_content"
         android:text="get contact"
         app:layout_constraintTop_toBottomOf="@+id/add_btn" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/contactsView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

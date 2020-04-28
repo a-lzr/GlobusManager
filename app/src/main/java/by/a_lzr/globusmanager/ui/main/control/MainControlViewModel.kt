@@ -1,4 +1,4 @@
-package by.a_lzr.globusmanager.ui.main
+package by.a_lzr.globusmanager.ui.main.control
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
