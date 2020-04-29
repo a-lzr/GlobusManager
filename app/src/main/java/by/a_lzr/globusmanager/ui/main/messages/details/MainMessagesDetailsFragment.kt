@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.a_lzr.globusmanager.R
+import by.a_lzr.globusmanager.ui.main.messages.MainMessagesFragmentListener
 import by.a_lzr.globusmanager.ui.main.messages.MessagesCollection
 import kotlinx.android.synthetic.main.fragment_main_messages_details.*
 import kotlinx.coroutines.CoroutineScope
@@ -30,6 +31,12 @@ class MainMessagesDetailsFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        backBtn.setOnClickListener{
+            with(parentFragment as MainMessagesFragmentListener) {
+                showGroups()
+            }
+        }
 
         CoroutineScope(Dispatchers.IO).launch {
             withContext(Dispatchers.Main) {

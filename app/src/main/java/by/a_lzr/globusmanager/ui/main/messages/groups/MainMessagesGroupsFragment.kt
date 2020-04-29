@@ -14,6 +14,7 @@ import kotlinx.coroutines.withContext
 import by.a_lzr.globusmanager.R
 import by.a_lzr.globusmanager.ui.main.messages.MainMessagesFragmentListener
 import by.a_lzr.globusmanager.ui.main.messages.MessagesCollection
+import kotlinx.android.synthetic.main.fragment_main_messages_details.*
 import kotlinx.android.synthetic.main.fragment_main_messages_groups.*
 
 class MainMessagesGroupsFragment : Fragment(), MainMessagesGroupsFragmentListener {

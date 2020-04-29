@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.fragment_main.*
 import by.a_lzr.globusmanager.R
+import by.a_lzr.globusmanager.toast.ToastHelper
 import by.a_lzr.globusmanager.ui.main.control.MainControlFragment
 import by.a_lzr.globusmanager.ui.main.messages.MainMessagesFragment
 
@@ -36,11 +37,13 @@ class MainFragment : Fragment() {
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab) {
-//                Toast.makeText(context, "onTabUnselected", Toast.LENGTH_SHORT)
+//                updateTabPosition(tab.position)
             }
 
             override fun onTabReselected(tab: TabLayout.Tab) {
-//                Toast.makeText(context, "onTabReselected", Toast.LENGTH_SHORT)
+//                childFragmentManager.findFragmentById().
+//                updateTabPosition(tab.position)
+//                ToastHelper.showToast(context, "onTabReselected")
             }
         })
 
