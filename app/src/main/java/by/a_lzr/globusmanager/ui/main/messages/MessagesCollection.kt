@@ -5,7 +5,7 @@ import by.a_lzr.globusmanager.storage.entity.*
 
 class MessagesCollection {
     val groups = ArrayList<Message>()
-    val messages = ArrayList<Message>()
+//    val messages = ArrayList<Message>()
     var personId: Long = 0
 
     suspend fun loadGroups() {
@@ -13,10 +13,10 @@ class MessagesCollection {
         groups.addAll(DatabaseHelper.db.personDao.getAllMessagesGroups())
     }
 
-    suspend fun loadMessages() {
-        messages.clear()
-        messages.addAll(DatabaseHelper.db.personDao.getMessagesByPerson(personId))
-    }
+//    suspend fun loadMessages() {
+//        messages.clear()
+//        messages.addAll(DatabaseHelper.db.personDao.getMessagesByPerson(personId))
+//    }
 
     companion object {
         val instance by lazy { MessagesCollection() }

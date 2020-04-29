@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import by.a_lzr.globusmanager.R
 import by.a_lzr.globusmanager.storage.entity.Message
@@ -14,7 +15,8 @@ import by.a_lzr.globusmanager.ui.main.messages.MessagesCollection
 private const val VIEW_TYPE_MESSAGE_SENT = 1
 private const val VIEW_TYPE_MESSAGE_RECEIVED = 2
 
-class MessagesDetailsAdapter:  RecyclerView.Adapter<MessagesDetailsAdapter.MessagesViewHolder>() {
+class MessagesDetailsAdapter :
+    PagedListAdapter<Message, MessagesDetailsAdapter.MessagesViewHolder>(MessagesDetailsCallback()) {
 
     open class MessagesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
@@ -24,38 +26,28 @@ class MessagesDetailsAdapter:  RecyclerView.Adapter<MessagesDetailsAdapter.Messa
         if (viewType == VIEW_TYPE_MESSAGE_SENT) {
             view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_message_sent, parent, false)
-            return SentMessageHolder(
-                view
-            ) as MessagesViewHolder
+            return SentMessageHolder(view) as MessagesViewHolder
         } else { //if (viewType == VIEW_TYPE_MESSAGE_RECEIVED) {
             view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_message_received, parent, false)
-            return ReceivedMessageHolder(
-                view
-            ) as MessagesViewHolder
+            return ReceivedMessageHolder(view) as MessagesViewHolder
         }
-
 //        return null
     }
 
-    override fun getItemCount(): Int {
-        return MessagesCollection.instance.messages.size
-    }
-
     override fun getItemViewType(position: Int): Int {
-       val item = MessagesCollection.instance.messages[position]
-
-        return if (item.outType)
+        val item = getItem(position)
+        return if (item!!.outType)
             VIEW_TYPE_MESSAGE_SENT
         else
             VIEW_TYPE_MESSAGE_RECEIVED
     }
 
     override fun onBindViewHolder(holder: MessagesViewHolder, position: Int) {
-        val item = MessagesCollection.instance.messages[position]
+        val item = getItem(position)
         when (holder.itemViewType) {
-            VIEW_TYPE_MESSAGE_SENT -> (holder as SentMessageHolder).bind(item)
-            VIEW_TYPE_MESSAGE_RECEIVED -> (holder as ReceivedMessageHolder).bind(item)
+            VIEW_TYPE_MESSAGE_SENT -> (holder as SentMessageHolder).bind(item!!)
+            VIEW_TYPE_MESSAGE_RECEIVED -> (holder as ReceivedMessageHolder).bind(item!!)
         }
     }
 
@@ -101,13 +93,10 @@ class MessagesDetailsAdapter:  RecyclerView.Adapter<MessagesDetailsAdapter.Messa
         }
 
         init {
-            messageText =
-                itemView.findViewById<View>(R.id.text_message_body2) as TextView
+            messageText = itemView.findViewById<View>(R.id.text_message_body2) as TextView
             timeText = itemView.findViewById<View>(R.id.text_message_time) as TextView
             nameText = itemView.findViewById<View>(R.id.text_message_name) as TextView
-            profileImage =
-                itemView.findViewById<View>(R.id.image_message_profile) as ImageView
+            profileImage = itemView.findViewById<View>(R.id.image_message_profile) as ImageView
         }
     }
-
 }

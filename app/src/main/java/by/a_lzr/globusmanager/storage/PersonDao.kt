@@ -1,5 +1,6 @@
 package by.a_lzr.globusmanager.storage
 
+import androidx.paging.DataSource
 import androidx.room.*
 import by.a_lzr.globusmanager.storage.entity.*
 
@@ -94,7 +95,7 @@ interface PersonDao {
     suspend fun getAllMessagesGroups(): List<Message>
 
     @Query("SELECT * FROM Message WHERE personId = :id ORDER BY date")
-    suspend fun getMessagesByPerson(id: Long): List<Message>
+    fun getMessagesByPerson(id: Long): DataSource.Factory<Int, Message>
 
 //    @Query("SELECT p.id, p.name FROM Person AS p LEFT JOIN ")
 //    suspend fun getAllContactInfo(): List<ContactInfo>

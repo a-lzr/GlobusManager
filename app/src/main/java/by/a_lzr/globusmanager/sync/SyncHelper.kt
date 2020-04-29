@@ -4,12 +4,14 @@ import android.annotation.SuppressLint
 import by.a_lzr.globusmanager.storage.DatabaseHelper
 import by.a_lzr.globusmanager.storage.entity.*
 import java.sql.Date
+import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
 object SyncHelper {
 
+    var lastMessageId = 0L
     //    val database = DatabaseHelper.getInstance(this).database
     //private val db = DatabaseHelper.db
 
@@ -173,48 +175,29 @@ object SyncHelper {
     @SuppressLint("SimpleDateFormat")
     private fun loadMessages() {
         val messages = ArrayList<Message>()
-        messages.add(Message(1L, 1L, "Привет", convertDateToLong("2020-05-01 08:12:12"), false, 1))
-        messages.add(Message(2L, 1L, "Сбрось телефон AP 5542-5", convertDateToLong("2020-05-01 08:12:14"), false, 1))
-        messages.add(Message(3L, 1L, "Привет", convertDateToLong("2020-05-01 08:13:18"), true, 1))
-        messages.add(Message(4L, 1L, "+37529XXXXXXX", convertDateToLong("2020-05-01 08:13:18"), true, 1))
-        messages.add(Message(5L, 1L, "Спасибо", convertDateToLong("2020-05-01 08:14:50"), false, 1))
-        messages.add(Message(6L, 1L, "Привет", convertDateToLong("2020-05-02 08:12:12"), false, 1))
-        messages.add(Message(7L, 1L, "Сбрось телефон AP 5542-5", convertDateToLong("2020-05-02 08:12:14"), false, 1))
-        messages.add(Message(8L, 1L, "Привет", convertDateToLong("2020-05-02 08:13:18"), true, 1))
-        messages.add(Message(9L, 1L, "+37529XXXXXXX", convertDateToLong("2020-05-02 08:13:18"), true, 1))
-        messages.add(Message(10L, 1L, "Спасибо", convertDateToLong("2020-05-02 08:14:50"), false, 1))
-        messages.add(Message(11L, 1L, "Привет", convertDateToLong("2020-05-03 08:12:12"), false, 1))
-        messages.add(Message(12L, 1L, "Сбрось телефон AP 5542-5", convertDateToLong("2020-05-03 08:12:14"), false, 1))
-        messages.add(Message(13L, 1L, "Привет", convertDateToLong("2020-05-03 08:13:18"), true, 1))
-        messages.add(Message(14L, 1L, "+37529XXXXXXX", convertDateToLong("2020-05-03 08:13:18"), true, 1))
-        messages.add(Message(15L, 1L, "Спасибо", convertDateToLong("2020-05-03 08:14:50"), false, 1))
-        messages.add(Message(16L, 1L, "Привет", convertDateToLong("2020-05-04 08:12:12"), false, 1))
-        messages.add(Message(17L, 1L, "Сбрось телефон AP 5542-5", convertDateToLong("2020-05-04 08:12:14"), false, 1))
-        messages.add(Message(18L, 1L, "Привет", convertDateToLong("2020-05-04 08:13:18"), true, 1))
-        messages.add(Message(19L, 1L, "+37529XXXXXXX", convertDateToLong("2020-05-04 08:13:18"), true, 1))
-        messages.add(Message(20L, 1L, "Спасибо", convertDateToLong("2020-05-04 08:14:50"), false, 1))
-        messages.add(Message(21L, 1L, "Привет", convertDateToLong("2020-05-05 08:12:12"), false, 1))
-        messages.add(Message(22L, 1L, "Сбрось телефон AP 5542-5", convertDateToLong("2020-05-05 08:12:14"), false, 1))
-        messages.add(Message(23L, 1L, "Привет", convertDateToLong("2020-05-05 08:13:18"), true, 1))
-        messages.add(Message(24L, 1L, "+37529XXXXXXX", convertDateToLong("2020-05-05 08:13:18"), true, 1))
-        messages.add(Message(25L, 1L, "Спасибо", convertDateToLong("2020-05-05 08:14:50"), false, 1))
-        messages.add(Message(26L, 1L, "Привет", convertDateToLong("2020-05-06 08:12:12"), false, 1))
-        messages.add(Message(27L, 1L, "Сбрось телефон AP 5542-5", convertDateToLong("2020-05-06 08:12:14"), false, 1))
-        messages.add(Message(28L, 1L, "Привет", convertDateToLong("2020-05-06 08:13:18"), true, 1))
-        messages.add(Message(29L, 1L, "+37529XXXXXXX", convertDateToLong("2020-05-06 08:13:18"), true, 1))
-        messages.add(Message(30L, 1L, "Спасибо", convertDateToLong("2020-05-06 08:14:50"), false, 1))
-        messages.add(Message(31L, 1L, "Привет", convertDateToLong("2020-05-07 08:12:12"), false, 1))
-        messages.add(Message(32L, 1L, "Сбрось телефон AP 5542-5", convertDateToLong("2020-05-07 08:12:14"), false, 1))
-        messages.add(Message(33L, 1L, "Привет", convertDateToLong("2020-05-07 08:13:18"), true, 1))
-        messages.add(Message(34L, 1L, "+37529XXXXXXX", convertDateToLong("2020-05-07 08:13:18"), true, 1))
-        messages.add(Message(35L, 1L, "Спасибо", convertDateToLong("2020-05-07 08:14:50"), false, 0))
-        messages.add(Message(36L, 2L, "Привет", convertDateToLong("2020-05-08 08:12:12"), false, 0))
-        messages.add(Message(37L, 2L, "Сбрось телефон AP 5542-5", convertDateToLong("2020-05-08 08:12:14"), false, 0))
-        messages.add(Message(38L, 2L, "Привет", convertDateToLong("2020-05-08 08:13:18"), true, 1))
-        messages.add(Message(39L, 2L, "+37529XXXXXXX", convertDateToLong("2020-05-08 08:13:18"), true, 1))
-        messages.add(Message(40L, 2L, "Спасибо", convertDateToLong("2020-05-08 08:14:50"), false, 0))
-        messages.add(Message(41L, 2L, "Привет", convertDateToLong("2020-05-09 08:12:12"), false, 0))
-        messages.add(Message(42L, 2L, "Сбрось телефон AP 5542-5", convertDateToLong("2020-05-09 08:12:14"), false, 0))
+        for (i in 1..10) {
+            messages.add(Message(1L + 10 * i, 1L, "Привет", convertDateToLong("2019-05-01 08:12:12") + i * 100000, false, 1))
+            messages.add(Message(2L + 10 * i, 1L, "Сбрось телефон AP 5542-5", convertDateToLong("2019-05-01 08:12:14") + i * 100000, false, 1))
+            messages.add(Message(3L + 10 * i, 1L, "Привет", convertDateToLong("2019-05-01 08:13:18") + i * 100000, true, 1))
+            messages.add(Message(4L + 10 * i, 1L, "+37529XXXXXXX", convertDateToLong("2019-05-01 08:13:18") + i * 100000, true, 1))
+            messages.add(Message(5L + 10 * i, 1L, "Спасибо", convertDateToLong("2019-05-01 08:14:50") + i * 100000, false, 1))
+
+            messages.add(Message(6L + 10 * i, 2L, "Hello", convertDateToLong("2019-05-01 08:12:12") + i * 100000, false, 1))
+            messages.add(Message(7L + 10 * i, 2L, "Сбрось телефон AP XXXX-X", convertDateToLong("2019-05-01 08:12:14") + i * 100000, false, 1))
+            messages.add(Message(8L + 10 * i, 2L, "Hi", convertDateToLong("2019-05-01 08:13:18") + i * 100000, true, 1))
+            messages.add(Message(9L + 10 * i, 2L, "+37533XXXXXXX", convertDateToLong("2019-05-01 08:13:18") + i * 100000, true, 1))
+            messages.add(Message(10L + 10 * i, 2L, "thx", convertDateToLong("2019-05-01 08:14:50") + i * 100000, false, 1))
+            lastMessageId = 10L + 10 * i
+        }
+        DatabaseHelper.db.personDao.addMessage(messages)
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    fun generateNewMessages() {
+        val messages = ArrayList<Message>()
+        messages.add(Message(lastMessageId + 1L, 1L, "Привет", System.currentTimeMillis(), false, 0))
+        messages.add(Message(lastMessageId + 2L, 1L, "Есть кто живой?", System.currentTimeMillis(), false, 0))
+        lastMessageId += 2L
         DatabaseHelper.db.personDao.addMessage(messages)
     }
 
