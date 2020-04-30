@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
+import android.view.View
 import android.view.View.OnLongClickListener
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
@@ -41,7 +42,10 @@ class SynchronizeActivity : AppCompatActivity(), SyncDataListener,
         }
 
         syncDataBtn.setOnLongClickListener(OnLongClickListener {
-            val myDialogFragment = CustomDialogFragment()
+            val myDialogFragment = CustomDialogFragment(
+                R.string.synchronize_break_info,
+                R.string.synchronize_break_confirm
+            )
             val manager: FragmentManager = supportFragmentManager
             val transaction: FragmentTransaction = manager.beginTransaction()
             myDialogFragment.show(transaction, "dialog")
@@ -93,7 +97,6 @@ class SynchronizeActivity : AppCompatActivity(), SyncDataListener,
     }
 
     override fun onDialogPositiveClick(dialog: DialogFragment?) {
-        actionBack()
         ToastHelper.showToast(
             this,
             SettingsHelper.getPreferenceString(R.string.synchronize_stop_hint)

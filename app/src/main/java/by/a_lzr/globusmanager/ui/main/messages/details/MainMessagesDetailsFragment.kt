@@ -1,7 +1,9 @@
 package by.a_lzr.globusmanager.ui.main.messages.details
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -10,9 +12,8 @@ import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.a_lzr.globusmanager.R
 import by.a_lzr.globusmanager.storage.DatabaseHelper
-import by.a_lzr.globusmanager.storage.GlobusDatabase
 import by.a_lzr.globusmanager.storage.entity.Message
-import by.a_lzr.globusmanager.ui.main.messages.MainMessagesFragmentListener
+import by.a_lzr.globusmanager.toast.ToastHelper
 import by.a_lzr.globusmanager.ui.main.messages.MessagesCollection
 import kotlinx.android.synthetic.main.fragment_main_messages_details.*
 import kotlinx.coroutines.CoroutineScope
@@ -24,6 +25,7 @@ class MainMessagesDetailsFragment : Fragment() {
 
     private lateinit var viewModel: MainMessagesDetailsViewModel
     private val adapter = MessagesDetailsAdapter()
+    lateinit var mLayoutManager: LinearLayoutManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,17 +39,18 @@ class MainMessagesDetailsFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        backBtn.setOnClickListener {
-            with(parentFragment as MainMessagesFragmentListener) {
-                showGroups()
-            }
+        sendBtn.setOnClickListener {
+            ToastHelper.showToast(context, "Сообщщение отправлено")
         }
 
         CoroutineScope(Dispatchers.IO).launch {
+            MessagesCollection.instance.posIndex =
+                DatabaseHelper.db.personDao.getMessagesPosByPerson(MessagesCollection.instance.personId)
             withContext(Dispatchers.Main) {
-//                MessagesCollection.instance.loadMessages()
-                messagesDetailsView.layoutManager = LinearLayoutManager(messagesDetailsView.context)
+                mLayoutManager = LinearLayoutManager(messagesDetailsView.context)
+                messagesDetailsView.layoutManager = mLayoutManager
                 messagesDetailsView.adapter = adapter
+
                 //1
                 val config = PagedList.Config.Builder()
                     .setPageSize(30)
@@ -55,13 +58,15 @@ class MainMessagesDetailsFragment : Fragment() {
                     .build()
 
                 //2
-                val liveData = initializedPagedListBuilder(config).build()
+                val liveData = initializedPagedListBuilder(config)
+//                    .setInitialLoadKey(50) ????
+                    .build()
 
                 //3
                 liveData.observe(viewLifecycleOwner, Observer<PagedList<Message>> { pagedList ->
+                    mLayoutManager.scrollToPosition(MessagesCollection.instance.posIndex)
                     adapter.submitList(pagedList)
                 })
-//                messagesDetailsView.setHasFixedSize(true)
             }
         }
     }
@@ -73,7 +78,7 @@ class MainMessagesDetailsFragment : Fragment() {
             DatabaseHelper.db.personDao.getMessagesByPerson(MessagesCollection.instance.personId),
             config
         )
-        livePageListBuilder.setBoundaryCallback(MessagesDetailsBoundaryCallback())
+//        livePageListBuilder.setBoundaryCallback(MessagesDetailsBoundaryCallback())
         return livePageListBuilder
     }
 }

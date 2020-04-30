@@ -83,18 +83,38 @@ interface PersonDao {
     @Query("SELECT * FROM Person ")
     suspend fun getAllPersons(): List<Person>
 
-    @Query("SELECT * FROM Message ")
-    suspend fun getAllMessages(): List<Message>
+//    @Query("SELECT * FROM Message ")
+//    suspend fun getAllMessages(): List<Message>
 
     @Query(
         "SELECT * " +
                 "FROM Message " +
                 "WHERE id in (SELECT Max(id) FROM Message GROUP BY personId) " +
-                "ORDER BY date DESC"
+                "ORDER BY id DESC"
     )
-    suspend fun getAllMessagesGroups(): List<Message>
+    fun getAllMessagesGroups(): DataSource.Factory<Int, Message>
 
-    @Query("SELECT * FROM Message WHERE personId = :id ORDER BY date")
+    @Query(
+        "SELECT Min(id) FROM Message WHERE personId = :id AND outType = 0 AND status = 0"
+    )
+    fun getMessagesPosByPerson2(id: Long): Int
+
+    @Query(
+        "WITH Pos AS (SELECT Min(id) AS id FROM Message WHERE personId = :id AND outType = 0 AND status = 0) " +
+                "SELECT COUNT(*) - 1 " +
+                "FROM Message " +
+                "WHERE personId = :id AND (id <= (SELECT id FROM Pos) OR (SELECT id FROM Pos) IS NULL)"
+    )
+    fun getMessagesPosByPerson(id: Long): Int
+
+    @Query(
+        "SELECT COUNT(*)  " +
+                "FROM Message " +
+                "WHERE outType = 0 AND status = 0"
+    )
+    fun getMessagesCountNotRead(): Int
+
+    @Query("SELECT * FROM Message WHERE personId = :id ORDER BY id")
     fun getMessagesByPerson(id: Long): DataSource.Factory<Int, Message>
 
 //    @Query("SELECT p.id, p.name FROM Person AS p LEFT JOIN ")

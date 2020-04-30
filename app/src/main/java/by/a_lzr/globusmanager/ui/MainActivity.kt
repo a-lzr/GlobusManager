@@ -2,16 +2,21 @@ package by.a_lzr.globusmanager.ui
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.ContentProviderOperation
-import android.content.ContentValues
-import android.content.Context
+import android.content.*
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.provider.ContactsContract.CommonDataKinds.Phone
 import android.util.Log
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
@@ -19,23 +24,27 @@ import androidx.navigation.ui.*
 import by.a_lzr.globusmanager.MainActivityListener
 import by.a_lzr.globusmanager.R
 import by.a_lzr.globusmanager.account.AccountHelper
-import by.a_lzr.globusmanager.permissions.PermissionsHelper
-import by.a_lzr.globusmanager.settings.SettingsHelper
+import by.a_lzr.globusmanager.alerts.CustomDialogFragment
 import by.a_lzr.globusmanager.deprecated.sync.BatchOperation
 import by.a_lzr.globusmanager.deprecated.sync.ContactOperations
-import by.a_lzr.globusmanager.toast.ToastHelper
-import by.a_lzr.globusmanager.ui.main.messages.MainMessagesFragmentListener
+import by.a_lzr.globusmanager.permissions.PermissionsHelper
+import by.a_lzr.globusmanager.settings.SettingsHelper
+import by.a_lzr.globusmanager.ui.main.messages.details.MainMessagesDetailsActivity
 import com.google.android.material.navigation.NavigationView
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.app_bar_main.*
 
 
 const val PERMISSION_CONTACT_REQUEST_CODE = 1
 const val PERMISSION_PHONE_REQUEST_CODE = 2
 
-class MainActivity : AppCompatActivity(), MainActivityListener {
+class MainActivity : AppCompatActivity(), MainActivityListener,
+    CustomDialogFragment.DialogListener {
 
     private lateinit var navView: NavigationView
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
+    private lateinit var drawerLayout: DrawerLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,15 +52,18 @@ class MainActivity : AppCompatActivity(), MainActivityListener {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
+//        supportActionBar!!.setDisplayShowHomeEnabled(true)
+//        appBarConfiguration.home
 //        val fab: FloatingActionButton = findViewById(R.id.fab)
 //        fab.setOnClickListener { view ->
 //            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                    .setAction("Action", null).show()
 //        }
 
-        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
+        drawerLayout = findViewById(R.id.drawer_layout)
         navView = findViewById(R.id.nav_view)
         navController = findNavController(R.id.nav_context_fragment)
+
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.nav_bar_main,
@@ -66,7 +78,7 @@ class MainActivity : AppCompatActivity(), MainActivityListener {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        navView.setNavigationItemSelectedListener {
+/*        navView.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.nav_bar_contacts -> {
                     if (!PermissionsHelper.addPermissions(
@@ -82,11 +94,13 @@ class MainActivity : AppCompatActivity(), MainActivityListener {
                 }
             }
 
+            //navController.currentBackStackEntry?
+
             val handled = NavigationUI.onNavDestinationSelected(it, navController)
             if (handled)
                 finishNavigate()
             return@setNavigationItemSelectedListener handled
-        }
+        } */
     }
 
     /*
@@ -371,17 +385,30 @@ class MainActivity : AppCompatActivity(), MainActivityListener {
         )
         */
 
-        op.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
-            .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
-            .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.Profile.CONTENT_RAW_CONTACTS_URI)
-            .withValue(ContactsContract.Profile.IS_USER_PROFILE, 1)
-            .build())
+        op.add(
+            ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+                .withValue(
+                    ContactsContract.Data.MIMETYPE,
+                    ContactsContract.Profile.CONTENT_RAW_CONTACTS_URI
+                )
+                .withValue(ContactsContract.Profile.IS_USER_PROFILE, 1)
+                .build()
+        )
 
-        op.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
-            .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
-            .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)
-            .withValue(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME, "Alexander 5555")
-            .build());
+        op.add(
+            ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+                .withValue(
+                    ContactsContract.Data.MIMETYPE,
+                    ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE
+                )
+                .withValue(
+                    ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME,
+                    "Alexander 5555"
+                )
+                .build()
+        );
 
         op.add(
             ContentProviderOperation
@@ -427,5 +454,35 @@ class MainActivity : AppCompatActivity(), MainActivityListener {
         )
 
         return phoneCursor?.count ?: -1
+    }
+
+    override fun onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START)
+        } else {
+            if (onBackPressedDispatcher.hasEnabledCallbacks())
+                super.onBackPressed()
+            else
+                openQuitDialog()
+        }
+    }
+
+    private fun openQuitDialog() {
+        val myDialogFragment = CustomDialogFragment(
+            R.string.app_finish_info,
+            R.string.app_finish_confirm
+        )
+        val manager: FragmentManager = supportFragmentManager
+        val transaction: FragmentTransaction = manager.beginTransaction()
+        myDialogFragment.show(transaction, "dialog")
+    }
+
+    override fun onDialogPositiveClick(dialog: DialogFragment?) {
+        finish()
+    }
+
+    override fun onDialogNegativeClick(dialog: DialogFragment?) {
+        val intent = Intent(this,  MainMessagesDetailsActivity::class.java)
+        startActivity(intent)
     }
 }

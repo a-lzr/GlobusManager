@@ -34,6 +34,7 @@
             android:layout_height="wrap_content"
             android:icon="@drawable/ic_menu_messages"
             android:text="@string/menu_main_messages"
+
             android:textAllCaps="false" />
 
     </com.google.android.material.tabs.TabLayout>

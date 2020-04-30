@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Globus Manager</string>
+    <string name="app_finish_info">Выход из программы</string>
+    <string name="app_finish_confirm">Вы уверены, что хотите выйти из программы?</string>
+
     <string name="authenticator_label">Globus Manager</string>
 
     <string name="register_header">Регистрация</string>
@@ -40,6 +43,8 @@
     <string name="menu_main">Главная</string>
     <string name="menu_main_control">Контрольные сообщения</string>
     <string name="menu_main_messages">Сообщения</string>
+    <string name="menu_main_messages_new">Получены новые сообщения</string>
+    <string name="menu_main_messages_enter">Напишите сообщение…</string>
 
     <string name="menu_instructions">Инструкции</string>
 

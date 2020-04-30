@@ -4,16 +4,24 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.material.tabs.TabLayout
-import kotlinx.android.synthetic.main.fragment_main.*
 import by.a_lzr.globusmanager.R
-import by.a_lzr.globusmanager.toast.ToastHelper
+import by.a_lzr.globusmanager.storage.DatabaseHelper
 import by.a_lzr.globusmanager.ui.main.control.MainControlFragment
 import by.a_lzr.globusmanager.ui.main.messages.MainMessagesFragment
+import by.a_lzr.globusmanager.ui.main.messages.MessagesCollection
+import com.google.android.material.badge.BadgeDrawable
+import com.google.android.material.tabs.TabLayout
+import kotlinx.android.synthetic.main.fragment_main.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class MainFragment : Fragment() {
+
+class MainFragment : Fragment(), MainFragmentListener {
 
     private lateinit var viewModel: MainViewModel
+    private lateinit var tabLayout: TabLayout
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,7 +36,7 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val tabLayout = view.findViewById<TabLayout>(R.id.main_tab_layout)
+        tabLayout = view.findViewById(R.id.main_tab_layout)
 
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
 
@@ -48,6 +56,7 @@ class MainFragment : Fragment() {
         })
 
         updateTabPosition(tabLayout.selectedTabPosition)
+        updateMessagesBadge()
     }
 
     private fun updateTabPosition(position: Int) {
@@ -70,5 +79,22 @@ class MainFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.main_menu, menu);
+    }
+
+    override fun updateMessagesBadge() {
+        CoroutineScope(Dispatchers.IO).launch {
+            MessagesCollection.instance.countNotRead =
+                DatabaseHelper.db.personDao.getMessagesCountNotRead()
+            withContext(Dispatchers.Main) {
+                if (MessagesCollection.instance.countNotRead > 0) {
+                    val badge: BadgeDrawable = tabLayout.getTabAt(1)!!.orCreateBadge
+                    badge.isVisible = true
+                    badge.number = MessagesCollection.instance.countNotRead
+                }
+                else {
+                    tabLayout.getTabAt(1)!!.removeBadge();
+                }
+            }
+        }
     }
 }

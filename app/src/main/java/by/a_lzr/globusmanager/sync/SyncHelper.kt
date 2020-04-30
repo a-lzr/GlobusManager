@@ -189,6 +189,8 @@ object SyncHelper {
             messages.add(Message(10L + 10 * i, 2L, "thx", convertDateToLong("2019-05-01 08:14:50") + i * 100000, false, 1))
             lastMessageId = 10L + 10 * i
         }
+        messages.add(Message(lastMessageId + 1, 1L, "Привет", System.currentTimeMillis(), false, 0))
+        lastMessageId++
         DatabaseHelper.db.personDao.addMessage(messages)
     }
 

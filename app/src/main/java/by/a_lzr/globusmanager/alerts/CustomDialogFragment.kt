@@ -7,15 +7,15 @@ import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import by.a_lzr.globusmanager.R
 
-class CustomDialogFragment : DialogFragment() {
+class CustomDialogFragment(private val titleResId: Int, private val textResId: Int) : DialogFragment() {
 
     private lateinit var listener: DialogListener
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
             AlertDialog.Builder(it)
-                .setTitle(getString(R.string.synchronize_break_info))
-                .setMessage(getString(R.string.synchronize_break_confirm))
+                .setTitle(getString(titleResId))
+                .setMessage(getString(textResId))
                 .setCancelable(true)
                 .setPositiveButton(getString(R.string.alert_action_yes)) { _, _ ->
                     listener.onDialogPositiveClick(this)

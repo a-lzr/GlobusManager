@@ -9,6 +9,7 @@ import by.a_lzr.globusmanager.R
 import by.a_lzr.globusmanager.sync.SYNC_STATUS_FINISH
 import by.a_lzr.globusmanager.sync.SyncHelper
 import by.a_lzr.globusmanager.toast.ToastHelper
+import by.a_lzr.globusmanager.ui.main.MainFragmentListener
 import by.a_lzr.globusmanager.ui.main.messages.details.MainMessagesDetailsFragment
 import by.a_lzr.globusmanager.ui.main.messages.groups.MainMessagesGroupsFragment
 import kotlinx.android.synthetic.main.fragment_main_messages.*
@@ -76,15 +77,22 @@ class MainMessagesFragment : Fragment(), MainMessagesFragmentListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_sync -> {
-               CoroutineScope(Dispatchers.Default).launch {
+                CoroutineScope(Dispatchers.Default).launch {
                     SyncHelper.generateNewMessages()
-                   withContext(Dispatchers.Main){
-                       ToastHelper.showToast(context, "Новые сообщения успешно добавлены")
-                   }
+                    withContext(Dispatchers.Main) {
+                        updateBadge()
+                        ToastHelper.showToast(context, getString(R.string.menu_main_messages_new))
+                    }
                 }
                 true
             }
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun updateBadge() {
+        with(parentFragment as MainFragmentListener) {
+            updateMessagesBadge()
         }
     }
 }
