@@ -15,7 +15,7 @@
 
     <string name="synchronize_header">Синхронизация данных</string>
     <string name="synchronize_title_before">Для продолжения запустите синхронизацию данных</string>
-    <string name="synchronize_info_before">Нажмите на кнопку по середине экрана</string>
+    <string name="synchronize_info_before">Нажмите на кнопку\nпо середине экрана</string>
     <string name="synchronize_title_after">Ожидайте, идет синхронизация данных…</string>
     <string name="synchronize_info_after">Для операции необходимо подключение к интернету</string>
     <string name="synchronize_do">Синхронизировать данные</string>

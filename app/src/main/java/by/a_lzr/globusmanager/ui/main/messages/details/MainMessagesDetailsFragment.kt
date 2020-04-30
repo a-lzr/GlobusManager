@@ -21,7 +21,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class MainMessagesDetailsFragment : Fragment() {
+class MainMessagesDetailsFragment : Fragment(),  View.OnClickListener {
 
     private lateinit var viewModel: MainMessagesDetailsViewModel
     private val adapter = MessagesDetailsAdapter()
@@ -39,9 +39,9 @@ class MainMessagesDetailsFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        sendBtn.setOnClickListener {
-            ToastHelper.showToast(context, "Сообщщение отправлено")
-        }
+        sendBtn.setOnClickListener(this)
+        attachFileBtn.setOnClickListener(this)
+        attachCameraBtn.setOnClickListener(this)
 
         CoroutineScope(Dispatchers.IO).launch {
             MessagesCollection.instance.posIndex =
@@ -67,6 +67,20 @@ class MainMessagesDetailsFragment : Fragment() {
                     mLayoutManager.scrollToPosition(MessagesCollection.instance.posIndex)
                     adapter.submitList(pagedList)
                 })
+            }
+        }
+    }
+
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            sendBtn.id -> {
+                ToastHelper.showToast(context, "Сообщщение отправлено")
+            }
+            attachFileBtn.id -> {
+                ToastHelper.showToast(context, "Прикрепление файла завершено")
+            }
+            attachCameraBtn.id -> {
+                ToastHelper.showToast(context, "Прикрепление изображения с камеры завершено")
             }
         }
     }
