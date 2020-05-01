@@ -1,9 +1,6 @@
 package by.a_lzr.globusmanager.ui.main.messages
 
-import by.a_lzr.globusmanager.storage.DatabaseHelper
-import by.a_lzr.globusmanager.storage.entity.*
-
-class MessagesCollection {
+class MainMessagesCollection {
 //    val groups = ArrayList<Message>()
 //    val messages = ArrayList<Message>()
     var personId: Long = 0
@@ -21,6 +18,6 @@ class MessagesCollection {
 //    }
 
     companion object {
-        val instance by lazy { MessagesCollection() }
+        val instance by lazy { MainMessagesCollection() }
     }
 }

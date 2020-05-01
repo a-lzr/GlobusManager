@@ -20,7 +20,7 @@ import by.a_lzr.globusmanager.storage.DatabaseHelper
 import by.a_lzr.globusmanager.storage.entity.Message
 import by.a_lzr.globusmanager.toast.ToastHelper
 import by.a_lzr.globusmanager.ui.PERMISSION_CONTACT_REQUEST_CODE
-import by.a_lzr.globusmanager.ui.main.messages.MessagesCollection
+import by.a_lzr.globusmanager.ui.main.messages.MainMessagesCollection
 import kotlinx.android.synthetic.main.fragment_main_messages_details.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -34,7 +34,7 @@ const val REQUEST_GALLERY = 100
 class MainMessagesDetailsFragment : Fragment(),  View.OnClickListener {
 
     private lateinit var viewModel: MainMessagesDetailsViewModel
-    private val adapter = MessagesDetailsAdapter()
+    private val adapter = MainMessagesDetailsAdapter()
     lateinit var mLayoutManager: LinearLayoutManager
 
     override fun onCreateView(
@@ -54,8 +54,8 @@ class MainMessagesDetailsFragment : Fragment(),  View.OnClickListener {
         attachCameraBtn.setOnClickListener(this)
 
         CoroutineScope(Dispatchers.IO).launch {
-            MessagesCollection.instance.posIndex =
-                DatabaseHelper.db.personDao.getMessagesPosByPerson(MessagesCollection.instance.personId)
+            MainMessagesCollection.instance.posIndex =
+                DatabaseHelper.db.personDao.getMessagesPosByPerson(MainMessagesCollection.instance.personId)
             withContext(Dispatchers.Main) {
                 mLayoutManager = LinearLayoutManager(messagesDetailsView.context)
                 messagesDetailsView.layoutManager = mLayoutManager
@@ -74,7 +74,7 @@ class MainMessagesDetailsFragment : Fragment(),  View.OnClickListener {
 
                 //3
                 liveData.observe(viewLifecycleOwner, Observer<PagedList<Message>> { pagedList ->
-                    mLayoutManager.scrollToPosition(MessagesCollection.instance.posIndex)
+                    mLayoutManager.scrollToPosition(MainMessagesCollection.instance.posIndex)
                     adapter.submitList(pagedList)
                 })
             }
@@ -140,7 +140,7 @@ class MainMessagesDetailsFragment : Fragment(),  View.OnClickListener {
             LivePagedListBuilder<Int, Message> {
 
         val livePageListBuilder = LivePagedListBuilder(
-            DatabaseHelper.db.personDao.getMessagesByPerson(MessagesCollection.instance.personId),
+            DatabaseHelper.db.personDao.getMessagesByPerson(MainMessagesCollection.instance.personId),
             config
         )
 //        livePageListBuilder.setBoundaryCallback(MessagesDetailsBoundaryCallback())

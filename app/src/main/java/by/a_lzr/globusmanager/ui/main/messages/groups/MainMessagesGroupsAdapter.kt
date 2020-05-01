@@ -11,8 +11,8 @@ import by.a_lzr.globusmanager.storage.entity.MessageGroup
 import by.a_lzr.globusmanager.storage.MessageGroupCallback
 import kotlinx.android.synthetic.main.item_group.view.*
 
-class MessagesGroupsAdapter(val fragment: MainMessagesGroupsFragmentListener) :
-    PagedListAdapter<MessageGroup, MessagesGroupsAdapter.MessagesViewHolder>(MessageGroupCallback()) {
+class MainMessagesGroupsAdapter(val fragment: MainMessagesGroupsFragmentListener) :
+    PagedListAdapter<MessageGroup, MainMessagesGroupsAdapter.MessagesViewHolder>(MessageGroupCallback()) {
 
     class MessagesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 

@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 
 import by.a_lzr.globusmanager.R
-import by.a_lzr.globusmanager.sync.SYNC_STATUS_FINISH
 import by.a_lzr.globusmanager.sync.SyncHelper
 import by.a_lzr.globusmanager.toast.ToastHelper
 import by.a_lzr.globusmanager.ui.main.MainFragmentListener
@@ -18,7 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class MainMessagesFragment : Fragment(), MainMessagesFragmentListener {
+class MainMessagesFragment : Fragment() {
 
     private lateinit var viewModel: MainMessagesViewModel
 
@@ -54,18 +53,10 @@ class MainMessagesFragment : Fragment(), MainMessagesFragmentListener {
         } */
     }
 
-    override fun showGroups() {
+    private fun showGroups() {
         childFragmentManager
             .beginTransaction()
             .replace(main_messages_fragment_widget.id, MainMessagesGroupsFragment())
-            .commit()
-    }
-
-    override fun showDetails(personID: Long) {
-        MessagesCollection.instance.personId = personID
-        childFragmentManager
-            .beginTransaction()
-            .replace(main_messages_fragment_widget.id, MainMessagesDetailsFragment())
             .commit()
     }
 

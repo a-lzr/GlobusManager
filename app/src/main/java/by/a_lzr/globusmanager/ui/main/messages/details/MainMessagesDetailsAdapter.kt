@@ -15,8 +15,8 @@ import by.a_lzr.globusmanager.storage.entity.Message
 private const val VIEW_TYPE_MESSAGE_SENT = 1
 private const val VIEW_TYPE_MESSAGE_RECEIVED = 2
 
-class MessagesDetailsAdapter :
-    PagedListAdapter<Message, MessagesDetailsAdapter.MessagesViewHolder>(MessageCallback()) {
+class MainMessagesDetailsAdapter :
+    PagedListAdapter<Message, MainMessagesDetailsAdapter.MessagesViewHolder>(MessageCallback()) {
 
     open class MessagesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 

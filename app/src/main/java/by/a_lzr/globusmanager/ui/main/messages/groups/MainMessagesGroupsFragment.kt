@@ -18,14 +18,14 @@ import by.a_lzr.globusmanager.R
 import by.a_lzr.globusmanager.activities.ActivityHelper
 import by.a_lzr.globusmanager.storage.DatabaseHelper
 import by.a_lzr.globusmanager.storage.entity.MessageGroup
-import by.a_lzr.globusmanager.ui.main.messages.MessagesCollection
+import by.a_lzr.globusmanager.ui.main.messages.MainMessagesCollection
 import by.a_lzr.globusmanager.ui.main.messages.details.MainMessagesDetailsActivity
 import kotlinx.android.synthetic.main.fragment_main_messages_groups.*
 
 class MainMessagesGroupsFragment : Fragment(), MainMessagesGroupsFragmentListener {
 
     private lateinit var viewModel: MainMessagesGroupsViewModel
-    private val adapter = MessagesGroupsAdapter(this)
+    private val adapter = MainMessagesGroupsAdapter(this)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,11 +66,8 @@ class MainMessagesGroupsFragment : Fragment(), MainMessagesGroupsFragmentListene
     }
 
     override fun showDetails(personId: Long) {
-        MessagesCollection.instance.personId = personId
+        MainMessagesCollection.instance.personId = personId
         activity?.let { ActivityHelper.startActivity(it, MainMessagesDetailsActivity::class.java) }
-//        with(parentFragment as MainMessagesFragmentListener) {
-//            showDetails(personId)
-//        }
     }
 
     private fun initializedPagedListBuilder(config: PagedList.Config):
