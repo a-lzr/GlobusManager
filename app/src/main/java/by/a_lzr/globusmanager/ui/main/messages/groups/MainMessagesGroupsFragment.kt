@@ -17,14 +17,9 @@ import kotlinx.coroutines.withContext
 import by.a_lzr.globusmanager.R
 import by.a_lzr.globusmanager.activities.ActivityHelper
 import by.a_lzr.globusmanager.storage.DatabaseHelper
-import by.a_lzr.globusmanager.storage.entity.Message
-import by.a_lzr.globusmanager.ui.main.messages.MainMessagesFragmentListener
+import by.a_lzr.globusmanager.storage.entity.MessageGroup
 import by.a_lzr.globusmanager.ui.main.messages.MessagesCollection
 import by.a_lzr.globusmanager.ui.main.messages.details.MainMessagesDetailsActivity
-import by.a_lzr.globusmanager.ui.main.messages.details.MessagesDetailsAdapter
-import by.a_lzr.globusmanager.ui.main.messages.details.MessagesDetailsBoundaryCallback
-import by.a_lzr.globusmanager.ui.system.SynchronizeActivity
-import kotlinx.android.synthetic.main.fragment_main_messages_details.*
 import kotlinx.android.synthetic.main.fragment_main_messages_groups.*
 
 class MainMessagesGroupsFragment : Fragment(), MainMessagesGroupsFragmentListener {
@@ -58,7 +53,7 @@ class MainMessagesGroupsFragment : Fragment(), MainMessagesGroupsFragmentListene
                 val liveData = initializedPagedListBuilder(config).build()
 
                 //3
-                liveData.observe(viewLifecycleOwner, Observer<PagedList<Message>> { pagedList ->
+                liveData.observe(viewLifecycleOwner, Observer<PagedList<MessageGroup>> { pagedList ->
                     adapter.submitList(pagedList)
                 })
 //                MessagesCollection.instance.loadGroups()
@@ -79,13 +74,13 @@ class MainMessagesGroupsFragment : Fragment(), MainMessagesGroupsFragmentListene
     }
 
     private fun initializedPagedListBuilder(config: PagedList.Config):
-            LivePagedListBuilder<Int, Message> {
+            LivePagedListBuilder<Int, MessageGroup> {
 
         val livePageListBuilder = LivePagedListBuilder(
-            DatabaseHelper.db.personDao.getAllMessagesGroups(),
+            DatabaseHelper.db.personDao.getAllMessageGroups(),
             config
         )
-        livePageListBuilder.setBoundaryCallback(MessagesDetailsBoundaryCallback())
+//        livePageListBuilder.setBoundaryCallback(MessagesDetailsBoundaryCallback())
         return livePageListBuilder
     }
 }

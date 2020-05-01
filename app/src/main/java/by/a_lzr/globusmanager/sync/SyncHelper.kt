@@ -199,7 +199,8 @@ object SyncHelper {
         val messages = ArrayList<Message>()
         messages.add(Message(lastMessageId + 1L, 1L, "Привет", System.currentTimeMillis(), false, 0))
         messages.add(Message(lastMessageId + 2L, 1L, "Есть кто живой?", System.currentTimeMillis(), false, 0))
-        lastMessageId += 2L
+        messages.add(Message(lastMessageId + 3L, 2L, "Туки-тук!", System.currentTimeMillis(), false, 0))
+        lastMessageId += 3L
         DatabaseHelper.db.personDao.addMessage(messages)
     }
 

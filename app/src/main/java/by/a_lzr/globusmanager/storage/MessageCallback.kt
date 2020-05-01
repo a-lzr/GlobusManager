@@ -1,9 +1,9 @@
-package by.a_lzr.globusmanager.ui.main.messages.details
+package by.a_lzr.globusmanager.storage
 
 import androidx.recyclerview.widget.DiffUtil
 import by.a_lzr.globusmanager.storage.entity.Message
 
-class MessagesDetailsCallback : DiffUtil.ItemCallback<Message>() {
+class MessageCallback : DiffUtil.ItemCallback<Message>() {
 
     override fun areItemsTheSame(oldItem: Message, newItem: Message): Boolean {
         return oldItem.id == newItem.id

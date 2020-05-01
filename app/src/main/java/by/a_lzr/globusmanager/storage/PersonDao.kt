@@ -87,12 +87,16 @@ interface PersonDao {
 //    suspend fun getAllMessages(): List<Message>
 
     @Query(
-        "SELECT * " +
-                "FROM Message " +
-                "WHERE id in (SELECT Max(id) FROM Message GROUP BY personId) " +
-                "ORDER BY id DESC"
+        "WITH Links AS (SELECT Max(id) AS id, " +
+                "Sum(CASE WHEN outType = 0 AND status = 0 THEN 1 ELSE 0 END) AS countNoRead, " +
+                "Sum(CASE WHEN outType = 1 AND status = 0 THEN 1 ELSE 0 END) AS countNoDelivery " +
+                "FROM Message GROUP BY personId) " +
+                "SELECT m.*, src.countNoRead, src.countNoDelivery " +
+                "FROM Links AS src " +
+                "JOIN Message AS m ON m.id = src.id " +
+                "ORDER BY m.id DESC"
     )
-    fun getAllMessagesGroups(): DataSource.Factory<Int, Message>
+    fun getAllMessageGroups(): DataSource.Factory<Int, MessageGroup>
 
     @Query(
         "SELECT Min(id) FROM Message WHERE personId = :id AND outType = 0 AND status = 0"

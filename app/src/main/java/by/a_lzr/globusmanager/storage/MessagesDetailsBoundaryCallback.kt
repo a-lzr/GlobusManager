@@ -1,4 +1,4 @@
-package by.a_lzr.globusmanager.ui.main.messages.details
+package by.a_lzr.globusmanager.storage
 
 import android.util.Log
 import androidx.paging.PagedList

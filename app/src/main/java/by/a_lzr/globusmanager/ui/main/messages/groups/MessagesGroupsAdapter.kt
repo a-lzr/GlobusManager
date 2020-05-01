@@ -7,20 +7,18 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import by.a_lzr.globusmanager.R
 import by.a_lzr.globusmanager.storage.DataConverters
-import by.a_lzr.globusmanager.storage.entity.Message
-import by.a_lzr.globusmanager.toast.ToastHelper
-import by.a_lzr.globusmanager.ui.main.messages.MessagesCollection
-import by.a_lzr.globusmanager.ui.main.messages.details.MessagesDetailsCallback
-import kotlinx.android.synthetic.main.item_contact.view.*
+import by.a_lzr.globusmanager.storage.entity.MessageGroup
+import by.a_lzr.globusmanager.storage.MessageGroupCallback
+import kotlinx.android.synthetic.main.item_group.view.*
 
 class MessagesGroupsAdapter(val fragment: MainMessagesGroupsFragmentListener) :
-    PagedListAdapter<Message, MessagesGroupsAdapter.MessagesViewHolder>(MessagesDetailsCallback()) {
+    PagedListAdapter<MessageGroup, MessagesGroupsAdapter.MessagesViewHolder>(MessageGroupCallback()) {
 
     class MessagesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessagesViewHolder {
         val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_contact, parent, false)
+            .inflate(R.layout.item_group, parent, false)
 
         return MessagesViewHolder(itemView)
     }
@@ -37,8 +35,22 @@ class MessagesGroupsAdapter(val fragment: MainMessagesGroupsFragmentListener) :
         }
 
         with(item!!) {
-            itemView.nameTitle.text = message
-            itemView.nameInfo.text = DataConverters().convertLongToTime(date)
+            if (countNoRead > 0) {
+                itemView.badgeTopNotifyView.text = countNoRead.toString()
+                itemView.badgeTopNotifyView.visibility = View.VISIBLE
+            }
+            else
+                itemView.badgeTopNotifyView.visibility = View.INVISIBLE
+
+            if (countNoDelivery > 0) {
+                itemView.badgeBottomNotifyView.text = countNoDelivery.toString()
+                itemView.badgeBottomNotifyView.visibility = View.VISIBLE
+            }
+            else
+                itemView.badgeBottomNotifyView.visibility = View.INVISIBLE
+
+            itemView.titleTextView.text = message
+            itemView.infoTextView.text = DataConverters().convertLongToTime(date)
         }
     }
 }

@@ -8,15 +8,15 @@ import android.widget.TextView
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import by.a_lzr.globusmanager.R
+import by.a_lzr.globusmanager.storage.MessageCallback
 import by.a_lzr.globusmanager.storage.entity.Message
-import by.a_lzr.globusmanager.ui.main.messages.MessagesCollection
 
 
 private const val VIEW_TYPE_MESSAGE_SENT = 1
 private const val VIEW_TYPE_MESSAGE_RECEIVED = 2
 
 class MessagesDetailsAdapter :
-    PagedListAdapter<Message, MessagesDetailsAdapter.MessagesViewHolder>(MessagesDetailsCallback()) {
+    PagedListAdapter<Message, MessagesDetailsAdapter.MessagesViewHolder>(MessageCallback()) {
 
     open class MessagesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
@@ -64,8 +64,7 @@ class MessagesDetailsAdapter :
         }
 
         init {
-            messageText =
-                itemView.findViewById<View>(R.id.text_message_body1) as TextView
+            messageText = itemView.findViewById<View>(R.id.text_message_body1) as TextView
             timeText = itemView.findViewById<View>(R.id.text_message_time) as TextView
         }
     }
