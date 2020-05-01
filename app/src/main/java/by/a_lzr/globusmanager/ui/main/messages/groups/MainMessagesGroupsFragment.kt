@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.android.synthetic.main.fragment_main_messages_groups.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -20,7 +21,6 @@ import by.a_lzr.globusmanager.storage.DatabaseHelper
 import by.a_lzr.globusmanager.storage.entity.MessageGroup
 import by.a_lzr.globusmanager.ui.main.messages.MainMessagesCollection
 import by.a_lzr.globusmanager.ui.main.messages.details.MainMessagesDetailsActivity
-import kotlinx.android.synthetic.main.fragment_main_messages_groups.*
 
 class MainMessagesGroupsFragment : Fragment(), MainMessagesGroupsFragmentListener {
 
@@ -43,24 +43,19 @@ class MainMessagesGroupsFragment : Fragment(), MainMessagesGroupsFragmentListene
             withContext(Dispatchers.Main) {
                 messagesGroupsView.layoutManager = LinearLayoutManager(messagesGroupsView.context)
                 messagesGroupsView.adapter = adapter
-                //1
+
                 val config = PagedList.Config.Builder()
                     .setPageSize(30)
                     .setEnablePlaceholders(false)
                     .build()
 
-                //2
                 val liveData = initializedPagedListBuilder(config).build()
 
-                //3
-                liveData.observe(viewLifecycleOwner, Observer<PagedList<MessageGroup>> { pagedList ->
-                    adapter.submitList(pagedList)
-                })
-//                MessagesCollection.instance.loadGroups()
-//                messagesGroupsView.adapter =
-//                    MessagesGroupsAdapter(this@MainMessagesGroupsFragment)
-//                messagesGroupsView.layoutManager = LinearLayoutManager(messagesGroupsView.context)
-//                messagesGroupsView.setHasFixedSize(true)
+                liveData.observe(
+                    viewLifecycleOwner,
+                    Observer<PagedList<MessageGroup>> { pagedList ->
+                        adapter.submitList(pagedList)
+                    })
             }
         }
     }
