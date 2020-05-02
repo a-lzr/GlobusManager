@@ -14,10 +14,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import by.a_lzr.globusmanager.R
 import by.a_lzr.globusmanager.permissions.PermissionsHelper
 import by.a_lzr.globusmanager.storage.DatabaseHelper
 import by.a_lzr.globusmanager.storage.entity.Message
+import by.a_lzr.globusmanager.sync.SyncHelper
 import by.a_lzr.globusmanager.toast.ToastHelper
 import by.a_lzr.globusmanager.ui.PERMISSION_CONTACT_REQUEST_CODE
 import by.a_lzr.globusmanager.ui.main.messages.MainMessagesCollection
@@ -31,7 +33,7 @@ import kotlinx.coroutines.withContext
 const val CAMERA_REQUEST = 0
 const val REQUEST_GALLERY = 100
 
-class MainMessagesDetailsFragment : Fragment(),  View.OnClickListener {
+class MainMessagesDetailsFragment : Fragment(), View.OnClickListener {
 
     private lateinit var viewModel: MainMessagesDetailsViewModel
     private val adapter = MainMessagesDetailsAdapter()
@@ -61,21 +63,58 @@ class MainMessagesDetailsFragment : Fragment(),  View.OnClickListener {
                 messagesDetailsView.layoutManager = mLayoutManager
                 messagesDetailsView.adapter = adapter
 
-                //1
+
+                val scrollListener = object : RecyclerView.OnScrollListener() {
+
+                    override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                        super.onScrollStateChanged(recyclerView, newState)
+
+                        val position = mLayoutManager.findLastVisibleItemPosition()
+                        val item = adapter.getItem(position) ?: return
+                        if (position > MainMessagesCollection.instance.posIndex || item.status == 0.toByte()) {
+                            CoroutineScope(Dispatchers.IO).launch {
+                                SyncHelper.updateMessageStatus(
+                                    MainMessagesCollection.instance.personId,
+                                    item.id
+                                )
+                                MainMessagesCollection.instance.posIndex = position
+                            }
+                        }
+
+//                        adapter.getItemViewType()
+//                        itemViewModel.getPosition
+
+//                        val totalItemCount = recyclerView!!.layoutManager.itemCount
+//                        if (totalItemCount == lastVisibleItemPosition + 1) {
+//                            Log.d("MyTAG", "Load new list")
+//                            recycler.removeOnScrollListener(scrollListener)
+//                        }
+                    }
+                }
+                messagesDetailsView.addOnScrollListener(scrollListener)
+
+                adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+                    override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                        if (adapter.getItem(positionStart)?.outType!!) {
+                            MainMessagesCollection.instance.posIndex = positionStart
+                            mLayoutManager.scrollToPosition(positionStart)
+                        }
+                    }
+                })
+
                 val config = PagedList.Config.Builder()
                     .setPageSize(30)
-                    .setEnablePlaceholders(false)
+                    .setEnablePlaceholders(true)
                     .build()
 
-                //2
                 val liveData = initializedPagedListBuilder(config)
 //                    .setInitialLoadKey(50) ????
                     .build()
 
-                //3
                 liveData.observe(viewLifecycleOwner, Observer<PagedList<Message>> { pagedList ->
                     mLayoutManager.scrollToPosition(MainMessagesCollection.instance.posIndex)
                     adapter.submitList(pagedList)
+//                    mLayoutManager.onScrollStateChanged()
                 })
             }
         }
@@ -83,16 +122,13 @@ class MainMessagesDetailsFragment : Fragment(),  View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            sendBtn.id -> {
-                ToastHelper.showToast(context, "Сообщщение отправлено")
-            }
-            attachFileBtn.id -> {
-                addFile()
-//                ToastHelper.showToast(context, "Прикрепление файла завершено")
-            }
+            sendBtn.id -> addMessageOut()
+            attachFileBtn.id -> addFile()
             attachCameraBtn.id -> {
                 if (!PermissionsHelper.addPermissions(
-                        requireActivity(), arrayOf(Manifest.permission.CAMERA), PERMISSION_CONTACT_REQUEST_CODE
+                        requireActivity(),
+                        arrayOf(Manifest.permission.CAMERA),
+                        PERMISSION_CONTACT_REQUEST_CODE
                     )
                 ) return
                 addPhoto()
@@ -147,10 +183,22 @@ class MainMessagesDetailsFragment : Fragment(),  View.OnClickListener {
         return livePageListBuilder
     }
 
+    private fun addMessageOut() {
+        CoroutineScope(Dispatchers.IO).launch {
+            if (sendTextView.text!!.isNotEmpty()) {
+                SyncHelper.addMessageOut(
+                    MainMessagesCollection.instance.personId,
+                    sendTextView.text.toString()
+                )
+            }
+        }
+    }
+
     private fun addFile() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
         startActivityForResult(intent, REQUEST_GALLERY)
+//        ToastHelper.showToast(context, "Прикрепление файла завершено")
     }
 
     private fun addPhoto() {

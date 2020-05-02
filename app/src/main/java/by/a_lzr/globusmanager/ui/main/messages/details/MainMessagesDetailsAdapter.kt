@@ -3,13 +3,13 @@ package by.a_lzr.globusmanager.ui.main.messages.details
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import by.a_lzr.globusmanager.R
 import by.a_lzr.globusmanager.storage.MessageCallback
 import by.a_lzr.globusmanager.storage.entity.Message
+import kotlinx.android.synthetic.main.item_message_received.view.*
 
 private const val VIEW_TYPE_MESSAGE_SENT = 1
 private const val VIEW_TYPE_MESSAGE_RECEIVED = 2
@@ -41,6 +41,8 @@ class MainMessagesDetailsAdapter :
             VIEW_TYPE_MESSAGE_RECEIVED
     }
 
+    public override fun getItem(position: Int): Message? = super.getItem(position)
+
     override fun onBindViewHolder(holder: MessagesViewHolder, position: Int) {
         val item = getItem(position)
         when (holder.itemViewType) {
@@ -62,20 +64,26 @@ class MainMessagesDetailsAdapter :
         }
 
         init {
-            messageText = itemView.findViewById<View>(R.id.text_message_body1) as TextView
+            messageText = itemView.findViewById<View>(R.id.text_message_body) as TextView
             timeText = itemView.findViewById<View>(R.id.text_message_time) as TextView
         }
     }
 
     private class ReceivedMessageHolder internal constructor(itemView: View) :
         MessagesViewHolder(itemView) {
-        var messageText: TextView
-        var timeText: TextView
-        var nameText: TextView
-        var profileImage: ImageView
+//        var messageText: TextView
+//        var timeText: TextView
+//        var nameText: TextView
+//        var profileImage: ImageView
 
-        fun bind(message: Message) {
-            messageText.text = message.message
+        fun bind(item: Message) {
+
+            if (item.status == 0.toByte())
+                itemView.inBadgeTopNotifyView.visibility = View.VISIBLE
+            else
+                itemView.inBadgeTopNotifyView.visibility = View.INVISIBLE
+
+            itemView.inMessageTextView.text = item.message
 
             // Format the stored timestamp into a readable String using method.
 //            timeText.setText(Utils.formatDateTime(message.getCreatedAt()))
@@ -89,11 +97,11 @@ class MainMessagesDetailsAdapter :
             ) */
         }
 
-        init {
-            messageText = itemView.findViewById<View>(R.id.text_message_body2) as TextView
+        /*init {
+            messageText = itemView.findViewById<View>(R.id.text_message_body) as TextView
             timeText = itemView.findViewById<View>(R.id.text_message_time) as TextView
             nameText = itemView.findViewById<View>(R.id.text_message_name) as TextView
-            profileImage = itemView.findViewById<View>(R.id.image_message_profile) as ImageView
-        }
+//            profileImage = itemView.findViewById<View>(R.id.image_message_profile) as ImageView
+        } */
     }
 }

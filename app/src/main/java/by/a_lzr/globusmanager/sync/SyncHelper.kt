@@ -1,6 +1,7 @@
 package by.a_lzr.globusmanager.sync
 
 import android.annotation.SuppressLint
+import android.text.Editable
 import by.a_lzr.globusmanager.storage.DatabaseHelper
 import by.a_lzr.globusmanager.storage.entity.*
 import java.sql.Date
@@ -192,6 +193,18 @@ object SyncHelper {
         messages.add(Message(lastMessageId + 1, 1L, "Привет", System.currentTimeMillis(), false, 0))
         lastMessageId++
         DatabaseHelper.db.personDao.addMessage(messages)
+    }
+
+    fun addMessageOut(personJd: Long, message: String) {
+        val messages = ArrayList<Message>()
+        messages.add(Message(lastMessageId + 1, personJd, message, System.currentTimeMillis(), true, 0))
+        lastMessageId++
+        DatabaseHelper.db.personDao.addMessage(messages)
+        updateMessageStatus(personJd, lastMessageId)
+    }
+
+    fun updateMessageStatus(personJd: Long, id: Long) {
+        DatabaseHelper.db.personDao.updateMessageStatus(personJd, id)
     }
 
     @SuppressLint("SimpleDateFormat")

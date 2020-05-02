@@ -42,6 +42,11 @@ interface PersonDao {
     @Insert
     fun addMessage(data: List<Message>)
 
+    @Query(
+        "UPDATE Message SET status = 1 WHERE personId = :personId AND outType = 0 AND status = 0 AND id <= :id"
+    )
+    fun updateMessageStatus(personId: Long, id: Long): Int
+
 
     @Query("DELETE FROM PersonCompany")
     fun deletePersonCompanyAll()

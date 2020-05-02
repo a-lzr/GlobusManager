@@ -13,5 +13,7 @@ class MessageGroupCallback : DiffUtil.ItemCallback<MessageGroup>() {
         return oldItem.personId == newItem.personId
                 && oldItem.date == newItem.date
                 && oldItem.message == newItem.message
+                && oldItem.countNoRead == newItem.countNoRead
+                && oldItem.countNoDelivery == newItem.countNoDelivery
     }
 }

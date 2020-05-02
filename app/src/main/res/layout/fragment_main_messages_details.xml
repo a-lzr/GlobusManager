@@ -63,6 +63,7 @@
             app:layout_constraintStart_toStartOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sendTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/menu_main_messages_enter"
