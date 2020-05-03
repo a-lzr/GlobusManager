@@ -1,4 +1,4 @@
-package by.a_lzr.globusmanager.storage.entity
+package by.a_lzr.globusmanager.data.entity
 
 import androidx.room.*
 import java.util.*

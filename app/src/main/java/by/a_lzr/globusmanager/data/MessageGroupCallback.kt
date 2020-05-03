@@ -1,7 +1,7 @@
-package by.a_lzr.globusmanager.storage
+package by.a_lzr.globusmanager.data
 
 import androidx.recyclerview.widget.DiffUtil
-import by.a_lzr.globusmanager.storage.entity.MessageGroup
+import by.a_lzr.globusmanager.data.entity.MessageGroup
 
 class MessageGroupCallback : DiffUtil.ItemCallback<MessageGroup>() {
 

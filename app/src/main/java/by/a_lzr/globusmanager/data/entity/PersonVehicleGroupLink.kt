@@ -1,10 +1,9 @@
-package by.a_lzr.globusmanager.storage.entity
+package by.a_lzr.globusmanager.data.entity
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
-import by.a_lzr.globusmanager.storage.entity.PersonVehicle
-import by.a_lzr.globusmanager.storage.entity.PersonVehicleGroup
-import java.math.BigInteger
+import by.a_lzr.globusmanager.data.entity.PersonVehicle
+import by.a_lzr.globusmanager.data.entity.PersonVehicleGroup
 
 @Entity(
     primaryKeys = ["groupId", "linkId"],

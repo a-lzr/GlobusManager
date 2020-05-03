@@ -1,7 +1,9 @@
-package by.a_lzr.globusmanager.storage.entity
+package by.a_lzr.globusmanager.data.entity
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import by.a_lzr.globusmanager.data.entity.PersonEmployee
+import by.a_lzr.globusmanager.data.entity.PersonEmployeeGroup
 
 @Entity(
     primaryKeys = ["groupId", "linkId"],

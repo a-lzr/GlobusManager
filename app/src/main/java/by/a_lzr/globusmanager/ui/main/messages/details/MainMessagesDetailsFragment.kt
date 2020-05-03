@@ -1,13 +1,15 @@
 package by.a_lzr.globusmanager.ui.main.messages.details
 
 import android.Manifest
-import android.app.Activity
+import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -15,20 +17,16 @@ import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.*
 import by.a_lzr.globusmanager.R
 import by.a_lzr.globusmanager.permissions.PermissionsHelper
-import by.a_lzr.globusmanager.storage.DatabaseHelper
-import by.a_lzr.globusmanager.storage.entity.Message
+import by.a_lzr.globusmanager.data.DatabaseHelper
+import by.a_lzr.globusmanager.data.MessagesHelper
+import by.a_lzr.globusmanager.data.entity.MessageDetail
 import by.a_lzr.globusmanager.sync.SyncHelper
-import by.a_lzr.globusmanager.toast.ToastHelper
 import by.a_lzr.globusmanager.ui.PERMISSION_CONTACT_REQUEST_CODE
-import by.a_lzr.globusmanager.ui.main.messages.MainMessagesCollection
+import by.a_lzr.globusmanager.utils.Converter
 import kotlinx.android.synthetic.main.fragment_main_messages_details.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-
 
 const val CAMERA_REQUEST = 0
 const val REQUEST_GALLERY = 100
@@ -52,12 +50,12 @@ class MainMessagesDetailsFragment : Fragment(), View.OnClickListener {
         super.onActivityCreated(savedInstanceState)
 
         sendBtn.setOnClickListener(this)
-        attachFileBtn.setOnClickListener(this)
+        messageOutAttachBtn.setOnClickListener(this)
         attachCameraBtn.setOnClickListener(this)
 
         CoroutineScope(Dispatchers.IO).launch {
-            MainMessagesCollection.instance.posIndex =
-                DatabaseHelper.db.personDao.getMessagesPosByPerson(MainMessagesCollection.instance.personId)
+            MessagesHelper.posIndex =
+                DatabaseHelper.db.personDao.getMessagesPosByPerson(MessagesHelper.personId)
             withContext(Dispatchers.Main) {
                 mLayoutManager = LinearLayoutManager(messagesDetailsView.context)
                 messagesDetailsView.layoutManager = mLayoutManager
@@ -71,13 +69,13 @@ class MainMessagesDetailsFragment : Fragment(), View.OnClickListener {
 
                         val position = mLayoutManager.findLastVisibleItemPosition()
                         val item = adapter.getItem(position) ?: return
-                        if (position > MainMessagesCollection.instance.posIndex || item.status == 0.toByte()) {
+                        if (position > MessagesHelper.posIndex || item.message.status == 0.toByte()) {
                             CoroutineScope(Dispatchers.IO).launch {
                                 SyncHelper.updateMessageStatus(
-                                    MainMessagesCollection.instance.personId,
-                                    item.id
+                                    MessagesHelper.personId,
+                                    item.message.id
                                 )
-                                MainMessagesCollection.instance.posIndex = position
+                                MessagesHelper.posIndex = position
                             }
                         }
 
@@ -95,8 +93,8 @@ class MainMessagesDetailsFragment : Fragment(), View.OnClickListener {
 
                 adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
                     override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                        if (adapter.getItem(positionStart)?.outType!!) {
-                            MainMessagesCollection.instance.posIndex = positionStart
+                        if (adapter.getItem(positionStart)?.message!!.outType) {
+                            MessagesHelper.posIndex = positionStart
                             mLayoutManager.scrollToPosition(positionStart)
                         }
                     }
@@ -111,8 +109,8 @@ class MainMessagesDetailsFragment : Fragment(), View.OnClickListener {
 //                    .setInitialLoadKey(50) ????
                     .build()
 
-                liveData.observe(viewLifecycleOwner, Observer<PagedList<Message>> { pagedList ->
-                    mLayoutManager.scrollToPosition(MainMessagesCollection.instance.posIndex)
+                liveData.observe(viewLifecycleOwner, Observer<PagedList<MessageDetail>> { pagedList ->
+                    mLayoutManager.scrollToPosition(MessagesHelper.posIndex)
                     adapter.submitList(pagedList)
 //                    mLayoutManager.onScrollStateChanged()
                 })
@@ -123,7 +121,7 @@ class MainMessagesDetailsFragment : Fragment(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v?.id) {
             sendBtn.id -> addMessageOut()
-            attachFileBtn.id -> addFile()
+            messageOutAttachBtn.id -> addFile()
             attachCameraBtn.id -> {
                 if (!PermissionsHelper.addPermissions(
                         requireActivity(),
@@ -148,13 +146,41 @@ class MainMessagesDetailsFragment : Fragment(), View.OnClickListener {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.P)
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode === CAMERA_REQUEST && resultCode === Activity.RESULT_OK) {
-            // Фотка сделана, извлекаем картинку
+        if (data == null) return
+
+//        var bitmap: Bitmap? = null
+//        ImageView imageView = (ImageView) findViewById(R.id.imageView);
+        when (requestCode) {
+            REQUEST_GALLERY -> {
+                if (resultCode == RESULT_OK) {
+                    MessagesHelper.addFile("file", "bmp", Converter.getBytes(data.data!!))
+//                    imageTitleView.setImageBitmap(Converter.getImage(MessagesHelper.file!!))
+
+//                    imageTitleView.setImageURI(Utils.getImage(bb))
+
+//                    val selectedImage = data!!.data;
+//                    val image = ImageDecoder.createSource(context?.contentResolver!!, selectedImage!!)
+//                    imageTitleView.setImageBitmap()
+//                    imageTest.data = getBytesFromImageMethod(image)//TODO
+//                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage);
+//                    try {
+//                        bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage);
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                    imageView.setImageBitmap(bitmap);
+                }
+            }
+        }
+
+        //if (requestCode === CAMERA_REQUEST && resultCode === Activity.RESULT_OK) {
+        // Фотка сделана, извлекаем картинку
 //            val thumbnailBitmap = data!!.extras!!["data"] as Bitmap?
 //            imageView.setImageBitmap(thumbnailBitmap)
-        }
+//        }
     }
 
     override fun onRequestPermissionsResult(
@@ -173,10 +199,10 @@ class MainMessagesDetailsFragment : Fragment(), View.OnClickListener {
     }
 
     private fun initializedPagedListBuilder(config: PagedList.Config):
-            LivePagedListBuilder<Int, Message> {
+            LivePagedListBuilder<Int, MessageDetail> {
 
         val livePageListBuilder = LivePagedListBuilder(
-            DatabaseHelper.db.personDao.getMessagesByPerson(MainMessagesCollection.instance.personId),
+            DatabaseHelper.db.personDao.getMessagesDetailsByPerson(MessagesHelper.personId),
             config
         )
 //        livePageListBuilder.setBoundaryCallback(MessagesDetailsBoundaryCallback())
@@ -187,7 +213,7 @@ class MainMessagesDetailsFragment : Fragment(), View.OnClickListener {
         CoroutineScope(Dispatchers.IO).launch {
             if (sendTextView.text!!.isNotEmpty()) {
                 SyncHelper.addMessageOut(
-                    MainMessagesCollection.instance.personId,
+                    MessagesHelper.personId,
                     sendTextView.text.toString()
                 )
             }

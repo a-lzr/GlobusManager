@@ -1,8 +1,8 @@
-package by.a_lzr.globusmanager.storage
+package by.a_lzr.globusmanager.data
 
 import androidx.paging.DataSource
 import androidx.room.*
-import by.a_lzr.globusmanager.storage.entity.*
+import by.a_lzr.globusmanager.data.entity.*
 
 @Dao
 interface PersonDao {
@@ -41,6 +41,9 @@ interface PersonDao {
 
     @Insert
     fun addMessage(data: List<Message>)
+
+    @Insert
+    fun addMessageFile(data: List<MessageFile>)
 
     @Query(
         "UPDATE Message SET status = 1 WHERE personId = :personId AND outType = 0 AND status = 0 AND id <= :id"
@@ -123,8 +126,11 @@ interface PersonDao {
     )
     fun getMessagesCountNotRead(): Int
 
-    @Query("SELECT * FROM Message WHERE personId = :id ORDER BY id")
-    fun getMessagesByPerson(id: Long): DataSource.Factory<Int, Message>
+    @Query("SELECT m.*, 1 AS countFiles " +
+            "FROM Message AS m " +
+//            "OUTER APPLY (SELECT COUNT(mf.id) AS countFiles FROM MessageFile AS mf WHERE mf.messageId = m.id) AS mf " +
+            "WHERE m.personId = :id ORDER BY m.id")
+    fun getMessagesDetailsByPerson(id: Long): DataSource.Factory<Int,  MessageDetail>
 
 //    @Query("SELECT p.id, p.name FROM Person AS p LEFT JOIN ")
 //    suspend fun getAllContactInfo(): List<ContactInfo>

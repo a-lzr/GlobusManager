@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import by.a_lzr.globusmanager.GlobusApplication
 import by.a_lzr.globusmanager.R
-import by.a_lzr.globusmanager.storage.DatabaseHelper
 import by.a_lzr.globusmanager.sync.SyncHelper
 import kotlinx.android.synthetic.main.fragment_contacts_groups.*
 

@@ -1,9 +1,7 @@
-package by.a_lzr.globusmanager.storage
+package by.a_lzr.globusmanager.deprecated
 
-import android.util.Log
 import androidx.paging.PagedList
-import by.a_lzr.globusmanager.storage.entity.Message
-import java.util.concurrent.Executors
+import by.a_lzr.globusmanager.data.entity.Message
 
 class MessagesDetailsBoundaryCallback : PagedList.BoundaryCallback<Message>() {
 

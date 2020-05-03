@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import by.a_lzr.globusmanager.R
-import by.a_lzr.globusmanager.storage.DataConverters
-import by.a_lzr.globusmanager.storage.entity.MessageGroup
-import by.a_lzr.globusmanager.storage.MessageGroupCallback
+import by.a_lzr.globusmanager.data.entity.MessageGroup
+import by.a_lzr.globusmanager.data.MessageGroupCallback
+import by.a_lzr.globusmanager.utils.Converter
 import kotlinx.android.synthetic.main.item_group.view.*
 
 class MainMessagesGroupsAdapter(val fragment: MainMessagesGroupsFragmentListener) :
@@ -50,7 +50,7 @@ class MainMessagesGroupsAdapter(val fragment: MainMessagesGroupsFragmentListener
                 itemView.badgeBottomNotifyView.visibility = View.INVISIBLE
 
             itemView.titleTextView.text = message
-            itemView.infoTextView.text = DataConverters().convertLongToTime(date)
+            itemView.infoTextView.text = Converter.getDateString(date)
         }
     }
 }

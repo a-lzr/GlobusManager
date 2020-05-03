@@ -17,9 +17,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import by.a_lzr.globusmanager.R
 import by.a_lzr.globusmanager.activities.ActivityHelper
-import by.a_lzr.globusmanager.storage.DatabaseHelper
-import by.a_lzr.globusmanager.storage.entity.MessageGroup
-import by.a_lzr.globusmanager.ui.main.messages.MainMessagesCollection
+import by.a_lzr.globusmanager.data.DatabaseHelper
+import by.a_lzr.globusmanager.data.entity.MessageGroup
+import by.a_lzr.globusmanager.data.MessagesHelper
 import by.a_lzr.globusmanager.ui.main.messages.details.MainMessagesDetailsActivity
 
 class MainMessagesGroupsFragment : Fragment(), MainMessagesGroupsFragmentListener {
@@ -61,7 +61,7 @@ class MainMessagesGroupsFragment : Fragment(), MainMessagesGroupsFragmentListene
     }
 
     override fun showDetails(personId: Long) {
-        MainMessagesCollection.instance.personId = personId
+        MessagesHelper.personId = personId
         activity?.let { ActivityHelper.startActivity(it, MainMessagesDetailsActivity::class.java) }
     }
 

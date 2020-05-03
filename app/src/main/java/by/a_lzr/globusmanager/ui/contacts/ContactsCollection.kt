@@ -1,7 +1,7 @@
 package by.a_lzr.globusmanager.ui.contacts
 
-import by.a_lzr.globusmanager.storage.DatabaseHelper
-import by.a_lzr.globusmanager.storage.entity.*
+import by.a_lzr.globusmanager.data.entity.Person
+import by.a_lzr.globusmanager.data.DatabaseHelper
 
 class ContactsCollection {
     val contacts = ArrayList<Person>()

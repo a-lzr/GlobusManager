@@ -1,10 +1,6 @@
-package by.a_lzr.globusmanager.storage
+package by.a_lzr.globusmanager.data
 
-import android.database.sqlite.SQLiteDatabase
-import android.database.sqlite.SQLiteOpenHelper
 import androidx.room.Room
-import androidx.room.migration.Migration
-import androidx.sqlite.db.SupportSQLiteDatabase
 import by.a_lzr.globusmanager.GlobusApplication
 
 
@@ -14,7 +10,9 @@ const val DB_VERSION = 1
 object DatabaseHelper {
 
     val db by lazy {
-        Room.databaseBuilder(GlobusApplication.appContext, GlobusDatabase::class.java, DB_NAME)
+        Room.databaseBuilder(GlobusApplication.appContext, GlobusDatabase::class.java,
+            DB_NAME
+        )
 //            .addMigrations(MIGRATION_1_2)
 //            .addCallback()
             .build()

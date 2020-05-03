@@ -3,19 +3,24 @@ package by.a_lzr.globusmanager.ui.main.messages.details
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import by.a_lzr.globusmanager.R
-import by.a_lzr.globusmanager.storage.MessageCallback
-import by.a_lzr.globusmanager.storage.entity.Message
+import by.a_lzr.globusmanager.data.MessageDetailCallback
+import by.a_lzr.globusmanager.data.entity.MessageDetail
+import by.a_lzr.globusmanager.utils.Converter
+import kotlinx.android.synthetic.main.fragment_main_messages_details.view.*
 import kotlinx.android.synthetic.main.item_message_received.view.*
+import kotlinx.android.synthetic.main.item_message_sent.view.*
+import kotlinx.android.synthetic.main.item_message_sent.view.messageOutAttachBtn
 
 private const val VIEW_TYPE_MESSAGE_SENT = 1
 private const val VIEW_TYPE_MESSAGE_RECEIVED = 2
 
 class MainMessagesDetailsAdapter :
-    PagedListAdapter<Message, MainMessagesDetailsAdapter.MessagesViewHolder>(MessageCallback()) {
+    PagedListAdapter<MessageDetail, MainMessagesDetailsAdapter.MessagesViewHolder>(
+        MessageDetailCallback()
+    ) {
 
     open class MessagesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
@@ -35,13 +40,13 @@ class MainMessagesDetailsAdapter :
 
     override fun getItemViewType(position: Int): Int {
         val item = getItem(position)
-        return if (item!!.outType)
+        return if (item!!.message.outType)
             VIEW_TYPE_MESSAGE_SENT
         else
             VIEW_TYPE_MESSAGE_RECEIVED
     }
 
-    public override fun getItem(position: Int): Message? = super.getItem(position)
+    public override fun getItem(position: Int): MessageDetail? = super.getItem(position)
 
     override fun onBindViewHolder(holder: MessagesViewHolder, position: Int) {
         val item = getItem(position)
@@ -53,19 +58,29 @@ class MainMessagesDetailsAdapter :
 
     private class SentMessageHolder internal constructor(itemView: View) :
         MessagesViewHolder(itemView) {
-        var messageText: TextView
-        var timeText: TextView
 
-        fun bind(message: Message) {
-            messageText.text = message.message
-
-            // Format the stored timestamp into a readable String using method.
-//            timeText.setText(Utils.formatDateTime(message.getCreatedAt()))
-        }
-
-        init {
-            messageText = itemView.findViewById<View>(R.id.text_message_body) as TextView
-            timeText = itemView.findViewById<View>(R.id.text_message_time) as TextView
+        fun bind(message: MessageDetail) {
+            itemView.messageOutTextView.text = message.message.message
+            itemView.messageOutTimeView.text = Converter.getTimeString(message.message.date)
+            if (message.countFiles > 0)
+                itemView.messageOutAttachBtn.visibility = View.VISIBLE
+            else
+                itemView.messageOutAttachBtn.visibility = View.GONE
+            when (message.message.status) {
+                1.toByte() -> {
+                    itemView.messageOutStatusImageView.setImageResource(R.drawable.ic_item_send_status1)
+                    itemView.messageOutStatusImageView.visibility = View.VISIBLE
+                }
+                2.toByte() -> {
+                    itemView.messageOutStatusImageView.setImageResource(R.drawable.ic_item_send_status2)
+                    itemView.messageOutStatusImageView.visibility = View.VISIBLE
+                }
+                3.toByte() -> {
+                    itemView.messageOutStatusImageView.setImageResource(R.drawable.ic_item_send_status3)
+                    itemView.messageOutStatusImageView.visibility = View.VISIBLE
+                }
+                else -> itemView.messageOutStatusImageView.visibility = View.GONE
+            }
         }
     }
 
@@ -76,14 +91,14 @@ class MainMessagesDetailsAdapter :
 //        var nameText: TextView
 //        var profileImage: ImageView
 
-        fun bind(item: Message) {
+        fun bind(item: MessageDetail) {
 
-            if (item.status == 0.toByte())
+            if (item.message.status == 0.toByte())
                 itemView.inBadgeTopNotifyView.visibility = View.VISIBLE
             else
                 itemView.inBadgeTopNotifyView.visibility = View.INVISIBLE
 
-            itemView.inMessageTextView.text = item.message
+            itemView.inMessageTextView.text = item.message.message
 
             // Format the stored timestamp into a readable String using method.
 //            timeText.setText(Utils.formatDateTime(message.getCreatedAt()))

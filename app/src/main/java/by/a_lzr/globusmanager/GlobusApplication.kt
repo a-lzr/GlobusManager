@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.res.Resources
 import by.a_lzr.globusmanager.notify.NotifyHelper
 import by.a_lzr.globusmanager.settings.SettingsHelper
-import by.a_lzr.globusmanager.storage.GlobusDatabase
 
 class GlobusApplication : Application() {
 

@@ -1,10 +1,9 @@
-package by.a_lzr.globusmanager.storage.entity
+package by.a_lzr.globusmanager.data.entity
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import by.a_lzr.globusmanager.storage.entity.Person
-import java.math.BigInteger
+import by.a_lzr.globusmanager.data.entity.Person
 
 @Entity(
     foreignKeys = [

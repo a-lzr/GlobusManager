@@ -1,9 +1,8 @@
-package by.a_lzr.globusmanager.storage
+package by.a_lzr.globusmanager.data
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
-import by.a_lzr.globusmanager.storage.entity.*
+import by.a_lzr.globusmanager.data.entity.*
 
 
 @Database(
@@ -20,7 +19,8 @@ import by.a_lzr.globusmanager.storage.entity.*
         PersonVehicle::class,
         PersonVehicleGroupLink::class,
 
-        Message::class
+        Message::class,
+        MessageFile::class
     ],
     version = DB_VERSION
 )

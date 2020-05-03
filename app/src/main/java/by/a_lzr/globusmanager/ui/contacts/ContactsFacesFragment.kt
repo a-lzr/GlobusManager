@@ -1,20 +1,11 @@
 package by.a_lzr.globusmanager.ui.contacts
 
-import android.Manifest
-import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Bundle
-import android.provider.ContactsContract
 import android.view.*
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.loader.content.CursorLoader
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.room.Database
-import by.a_lzr.globusmanager.MainActivityListener
 import by.a_lzr.globusmanager.R
-import by.a_lzr.globusmanager.storage.DatabaseHelper
 import by.a_lzr.globusmanager.sync.SyncHelper
 import kotlinx.android.synthetic.main.fragment_contacts_faces.*
 import kotlinx.coroutines.CoroutineScope

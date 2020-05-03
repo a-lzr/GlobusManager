@@ -5,10 +5,10 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import by.a_lzr.globusmanager.R
-import by.a_lzr.globusmanager.storage.DatabaseHelper
+import by.a_lzr.globusmanager.data.DatabaseHelper
 import by.a_lzr.globusmanager.ui.main.control.MainControlFragment
 import by.a_lzr.globusmanager.ui.main.messages.MainMessagesFragment
-import by.a_lzr.globusmanager.ui.main.messages.MainMessagesCollection
+import by.a_lzr.globusmanager.data.MessagesHelper
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.fragment_main.*
@@ -56,6 +56,10 @@ class MainFragment : Fragment(), MainFragmentListener {
         })
 
         updateTabPosition(tabLayout.selectedTabPosition)
+    }
+
+    override fun onResume() {
+        super.onResume()
         updateMessagesBadge()
     }
 
@@ -83,13 +87,12 @@ class MainFragment : Fragment(), MainFragmentListener {
 
     override fun updateMessagesBadge() {
         CoroutineScope(Dispatchers.IO).launch {
-            MainMessagesCollection.instance.countNotRead =
-                DatabaseHelper.db.personDao.getMessagesCountNotRead()
+            MessagesHelper.countNotRead = DatabaseHelper.db.personDao.getMessagesCountNotRead()
             withContext(Dispatchers.Main) {
-                if (MainMessagesCollection.instance.countNotRead > 0) {
+                if (MessagesHelper.countNotRead > 0) {
                     val badge: BadgeDrawable = tabLayout.getTabAt(1)!!.orCreateBadge
                     badge.isVisible = true
-                    badge.number = MainMessagesCollection.instance.countNotRead
+                    badge.number = MessagesHelper.countNotRead
                 }
                 else {
                     tabLayout.getTabAt(1)!!.removeBadge();
