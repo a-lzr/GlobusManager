@@ -11,7 +11,6 @@ import by.a_lzr.globusmanager.data.entity.MessageDetail
 import by.a_lzr.globusmanager.utils.Converter
 import kotlinx.android.synthetic.main.item_message_received.view.*
 import kotlinx.android.synthetic.main.item_message_sent.view.*
-import kotlinx.android.synthetic.main.item_message_sent.view.messageOutAttachBtn
 
 private const val VIEW_TYPE_MESSAGE_SENT = 1
 private const val VIEW_TYPE_MESSAGE_RECEIVED = 2
@@ -58,14 +57,14 @@ class MainMessagesDetailsAdapter :
     private class SentMessageHolder internal constructor(itemView: View) :
         MessagesViewHolder(itemView) {
 
-        fun bind(message: MessageDetail) {
-            itemView.messageOutTextView.text = message.message.message
-            itemView.messageOutTimeView.text = Converter.getTimeString(message.message.date)
-            if (message.countFiles > 0)
+        fun bind(item: MessageDetail) {
+            itemView.messageOutTextView.text = item.message.message
+            itemView.messageOutTimeView.text = Converter.getTimeString(item.message.date)
+            if (item.countFiles > 0)
                 itemView.messageOutAttachBtn.visibility = View.VISIBLE
             else
                 itemView.messageOutAttachBtn.visibility = View.GONE
-            when (message.message.status) {
+            when (item.message.status) {
                 1.toByte() -> {
                     itemView.messageOutStatusImageView.setImageResource(R.drawable.ic_item_send_status1)
                     itemView.messageOutStatusImageView.visibility = View.VISIBLE
@@ -85,37 +84,18 @@ class MainMessagesDetailsAdapter :
 
     private class ReceivedMessageHolder internal constructor(itemView: View) :
         MessagesViewHolder(itemView) {
-//        var messageText: TextView
-//        var timeText: TextView
-//        var nameText: TextView
-//        var profileImage: ImageView
 
         fun bind(item: MessageDetail) {
-
+            itemView.messageInTextView.text = item.message.message
+            itemView.messageInTimeView.text = Converter.getTimeString(item.message.date)
+            if (item.countFiles > 0)
+                itemView.messageInAttachBtn.visibility = View.VISIBLE
+            else
+                itemView.messageInAttachBtn.visibility = View.GONE
             if (item.message.status == 0.toByte())
                 itemView.messageInBadgeTopNotifyView.visibility = View.VISIBLE
             else
                 itemView.messageInBadgeTopNotifyView.visibility = View.INVISIBLE
-
-            itemView.messageInTextView.text = item.message.message
-
-            // Format the stored timestamp into a readable String using method.
-//            timeText.setText(Utils.formatDateTime(message.getCreatedAt()))
-//            nameText.setText(message.getSender().getNickname())
-
-            // Insert the profile image from the URL into the ImageView.
-/*            Utils.displayRoundImageFromUrl(
-                mContext,
-                message.getSender().getProfileUrl(),
-                profileImage
-            ) */
         }
-
-        /*init {
-            messageText = itemView.findViewById<View>(R.id.text_message_body) as TextView
-            timeText = itemView.findViewById<View>(R.id.text_message_time) as TextView
-            nameText = itemView.findViewById<View>(R.id.text_message_name) as TextView
-//            profileImage = itemView.findViewById<View>(R.id.image_message_profile) as ImageView
-        } */
     }
 }
