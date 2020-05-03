@@ -9,7 +9,6 @@ import by.a_lzr.globusmanager.R
 import by.a_lzr.globusmanager.data.MessageDetailCallback
 import by.a_lzr.globusmanager.data.entity.MessageDetail
 import by.a_lzr.globusmanager.utils.Converter
-import kotlinx.android.synthetic.main.fragment_main_messages_details.view.*
 import kotlinx.android.synthetic.main.item_message_received.view.*
 import kotlinx.android.synthetic.main.item_message_sent.view.*
 import kotlinx.android.synthetic.main.item_message_sent.view.messageOutAttachBtn
@@ -94,11 +93,11 @@ class MainMessagesDetailsAdapter :
         fun bind(item: MessageDetail) {
 
             if (item.message.status == 0.toByte())
-                itemView.inBadgeTopNotifyView.visibility = View.VISIBLE
+                itemView.messageInBadgeTopNotifyView.visibility = View.VISIBLE
             else
-                itemView.inBadgeTopNotifyView.visibility = View.INVISIBLE
+                itemView.messageInBadgeTopNotifyView.visibility = View.INVISIBLE
 
-            itemView.inMessageTextView.text = item.message.message
+            itemView.messageInTextView.text = item.message.message
 
             // Format the stored timestamp into a readable String using method.
 //            timeText.setText(Utils.formatDateTime(message.getCreatedAt()))
