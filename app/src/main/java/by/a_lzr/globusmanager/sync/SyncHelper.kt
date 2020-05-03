@@ -9,7 +9,7 @@ import by.a_lzr.globusmanager.utils.Converter
 object SyncHelper {
 
     var lastMessageId = 0L
-    var lastMessageFileId = 1L
+    var lastMessageFileId = DatabaseHelper.db.personDao.getMessageFileId() //:1L
     //    val database = DatabaseHelper.getInstance(this).database
     //private val db = DatabaseHelper.db
 
@@ -763,7 +763,7 @@ object SyncHelper {
             val files = ArrayList<MessageFile>()
             for(i in 0 until MessagesHelper.files!!.size) {
                 files.add(MessageFile(
-                    lastMessageFileId,
+                    lastMessageFileId + 1,
                     lastMessageId + 1,
                     MessagesHelper.files!![i])
                 )

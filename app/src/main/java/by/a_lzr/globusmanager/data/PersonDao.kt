@@ -112,6 +112,11 @@ interface PersonDao {
     fun getMessagesPosByPerson2(id: Long): Int
 
     @Query(
+        "SELECT Max(id) FROM MessageFile"
+    )
+    fun getMessageFileId(): Long
+
+    @Query(
         "WITH Pos AS (SELECT Min(id) AS id FROM Message WHERE personId = :id AND outType = 0 AND status = 0) " +
                 "SELECT COUNT(*) - 1 " +
                 "FROM Message " +
@@ -126,10 +131,12 @@ interface PersonDao {
     )
     fun getMessagesCountNotRead(): Int
 
-    @Query("SELECT m.*, 1 AS countFiles " +
+    @Query("SELECT m.*, Count(mf.id) AS countFiles " +
             "FROM Message AS m " +
-//            "OUTER APPLY (SELECT COUNT(mf.id) AS countFiles FROM MessageFile AS mf WHERE mf.messageId = m.id) AS mf " +
-            "WHERE m.personId = :id ORDER BY m.id")
+            "LEFT JOIN MessageFile AS mf ON mf.messageId = m.id " +
+            "WHERE m.personId = :id " +
+            "GROUP BY m.id, m.personId, m.message, m.date, m.outType, m.status " +
+            "ORDER BY m.id")
     fun getMessagesDetailsByPerson(id: Long): DataSource.Factory<Int,  MessageDetail>
 
 //    @Query("SELECT p.id, p.name FROM Person AS p LEFT JOIN ")
