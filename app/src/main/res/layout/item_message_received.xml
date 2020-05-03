@@ -7,19 +7,19 @@
     android:layout_margin="5dp">
 
     <RelativeLayout
-        android:id="@+id/inBadgeBoxLayout"
+        android:id="@+id/messageInBadgeBoxLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         card_view:layout_constraintStart_toStartOf="parent"
         card_view:layout_constraintTop_toTopOf="parent">
 
         <RelativeLayout
-            android:id="@+id/inBadgeImageLayout"
+            android:id="@+id/messageInBadgeImageLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/inBadgeImageView"
+                android:id="@+id/messageInBadgeImageView"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:background="@drawable/ic_item_contact"
@@ -29,10 +29,10 @@
         </RelativeLayout>
 
         <TextView
-            android:id="@+id/inBadgeTopNotifyView"
+            android:id="@+id/messageInBadgeTopNotifyView"
             android:layout_width="8dp"
             android:layout_height="8dp"
-            android:layout_alignEnd="@id/inBadgeImageLayout"
+            android:layout_alignEnd="@id/messageInBadgeImageLayout"
             android:background="@drawable/item_badge"
             android:textColor="#FFF"
             android:textSize="12sp"
@@ -42,18 +42,18 @@
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/inAuthorView"
+        android:id="@+id/messageInAuthorView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
         android:text="John Doe"
         android:textSize="12sp"
-        app:layout_constraintLeft_toRightOf="@+id/inBadgeBoxLayout"
+        app:layout_constraintLeft_toRightOf="@+id/messageInBadgeBoxLayout"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/inMessageTextView"
+        android:id="@+id/messageInTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -64,17 +64,17 @@
         android:text="hi man, how are you?"
         android:textColor="#ffffff"
         android:textIsSelectable="true"
-        app:layout_constraintLeft_toRightOf="@+id/inBadgeBoxLayout"
-        app:layout_constraintTop_toBottomOf="@+id/inAuthorView" />
+        app:layout_constraintLeft_toRightOf="@+id/messageInBadgeBoxLayout"
+        app:layout_constraintTop_toBottomOf="@+id/messageInAuthorView" />
 
     <TextView
-        android:id="@+id/inMessageTimeView"
+        android:id="@+id/messageInTimeView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:text="11:40"
         android:textSize="10sp"
-        app:layout_constraintBottom_toBottomOf="@+id/inMessageTextView"
-        app:layout_constraintLeft_toRightOf="@+id/inMessageTextView" />
+        app:layout_constraintBottom_toBottomOf="@+id/messageInTextView"
+        app:layout_constraintLeft_toRightOf="@+id/messageInTextView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
