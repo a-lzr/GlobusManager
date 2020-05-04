@@ -50,7 +50,7 @@
         android:id="@+id/sendBoxLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/attachBoxLayout">
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/sendBoxView"
@@ -58,7 +58,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:paddingStart="7dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/attachBoxLayout"
             app:layout_constraintEnd_toStartOf="@+id/sendBtn"
             app:layout_constraintStart_toStartOf="parent">
 
@@ -82,45 +82,70 @@
             app:icon="@drawable/ic_item_send"
             app:iconGravity="textStart"
             app:iconPadding="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/attachBoxLayout"
             app:layout_constraintEnd_toEndOf="parent" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/attachBoxLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/messageOutAttachBtn"
-            style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
-            android:layout_width="48dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/attachBoxLayout"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            android:focusable="true"
-            android:textSize="0sp"
-            app:icon="@drawable/ic_item_attach_file"
-            app:iconGravity="textStart"
-            app:iconPadding="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:paddingBottom="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/sendBoxView"
+            app:layout_constraintBottom_toBottomOf="parent">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/attachCameraBtn"
-            style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
-            android:layout_width="48dp"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:focusable="true"
-            android:textSize="0sp"
-            app:icon="@drawable/ic_item_camera"
-            app:iconGravity="textStart"
-            app:iconPadding="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/messageOutAttachBtn" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/attachFileBtn"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+                android:layout_width="48dp"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:textSize="0sp"
+                app:icon="@drawable/ic_item_attach_file"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/attachCameraBtn"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+                android:layout_width="48dp"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:textSize="0sp"
+                app:icon="@drawable/ic_item_camera"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/attachFileBtn" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/attachMoreBtn"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+                android:layout_width="48dp"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:textSize="0sp"
+                app:icon="@drawable/ic_item_more"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/attachCameraBtn" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Вложение: 5 файлов 156 кб"
+                android:gravity="end"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/attachMoreBtn"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

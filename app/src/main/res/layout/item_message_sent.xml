@@ -63,7 +63,7 @@
         </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/messageOutAttachBtn"
+            android:id="@+id/attachFileBtn"
             style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
             android:layout_width="32dp"
             android:layout_height="36dp"

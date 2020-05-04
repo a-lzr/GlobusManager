@@ -13,4 +13,10 @@ object MessagesHelper {
             files = ArrayList()
         files!!.add(File(name, extension, body))
     }
+
+    fun clearFiles() {
+        if (files == null) return
+        files!!.clear()
+        files = null
+    }
 }

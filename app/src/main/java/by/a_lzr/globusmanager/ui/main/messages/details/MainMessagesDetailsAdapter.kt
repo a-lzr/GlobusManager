@@ -61,9 +61,9 @@ class MainMessagesDetailsAdapter :
             itemView.messageOutTextView.text = item.message.message
             itemView.messageOutTimeView.text = Converter.getTimeString(item.message.date)
             if (item.countFiles > 0)
-                itemView.messageOutAttachBtn.visibility = View.VISIBLE
+                itemView.attachFileBtn.visibility = View.VISIBLE
             else
-                itemView.messageOutAttachBtn.visibility = View.GONE
+                itemView.attachFileBtn.visibility = View.GONE
             when (item.message.status) {
                 1.toByte() -> {
                     itemView.messageOutStatusImageView.setImageResource(R.drawable.ic_item_send_status1)

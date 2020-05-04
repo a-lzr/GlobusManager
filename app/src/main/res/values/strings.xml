@@ -40,6 +40,8 @@
     <string name="main_menu_action_sync">Синхронизировать данные</string>
     <string name="main_menu_action_settings">Настройки</string>
 
+    <string name="popup_menu_message_send_action_clear">Очистить вложения</string>
+
     <string name="menu_main">Главная</string>
     <string name="menu_main_control">Контрольные сообщения</string>
     <string name="menu_main_messages">Сообщения</string>

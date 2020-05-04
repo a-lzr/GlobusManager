@@ -9,6 +9,7 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -36,6 +37,7 @@ class MainMessagesDetailsFragment : Fragment(), View.OnClickListener {
     private lateinit var viewModel: MainMessagesDetailsViewModel
     private val adapter = MainMessagesDetailsAdapter()
     lateinit var mLayoutManager: LinearLayoutManager
+    private lateinit var popupMenu: PopupMenu
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,9 +51,7 @@ class MainMessagesDetailsFragment : Fragment(), View.OnClickListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        sendBtn.setOnClickListener(this)
-        messageOutAttachBtn.setOnClickListener(this)
-        attachCameraBtn.setOnClickListener(this)
+        initView()
 
         CoroutineScope(Dispatchers.IO).launch {
             MessagesHelper.posIndex =
@@ -118,10 +118,29 @@ class MainMessagesDetailsFragment : Fragment(), View.OnClickListener {
         }
     }
 
+    private fun initView() {
+        sendBtn.setOnClickListener(this)
+        attachFileBtn.setOnClickListener(this)
+        attachCameraBtn.setOnClickListener(this)
+        attachMoreBtn.setOnClickListener(this)
+
+        popupMenu = PopupMenu(context, attachMoreBtn)
+        popupMenu.inflate(R.menu.popup_menu_message_send)
+        popupMenu.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.action_messages_send -> {
+                    MessagesHelper.clearFiles()
+                    true
+                }
+                else -> false
+            }
+        }
+    }
+
     override fun onClick(v: View?) {
         when (v?.id) {
             sendBtn.id -> addMessageOut()
-            messageOutAttachBtn.id -> addFile()
+            attachFileBtn.id -> addFile()
             attachCameraBtn.id -> {
                 if (!PermissionsHelper.addPermissions(
                         requireActivity(),
@@ -130,6 +149,9 @@ class MainMessagesDetailsFragment : Fragment(), View.OnClickListener {
                     )
                 ) return
                 addPhoto()
+            }
+            attachMoreBtn.id -> {
+                popupMenu.show()
             }
 /*                val intent = Intent()
                 intent.action = Intent.ACTION_CAMERA_BUTTON
