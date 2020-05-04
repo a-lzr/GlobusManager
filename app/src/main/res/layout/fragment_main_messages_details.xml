@@ -137,10 +137,12 @@
                 app:layout_constraintStart_toEndOf="@+id/attachCameraBtn" />
 
             <TextView
+                android:id="@+id/attachInfo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Вложение: 5 файлов 156 кб"
                 android:gravity="end"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/attachMoreBtn"
                 app:layout_constraintTop_toTopOf="parent" />

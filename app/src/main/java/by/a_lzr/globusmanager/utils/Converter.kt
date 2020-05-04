@@ -61,6 +61,10 @@ object Converter {
         return date?.time?.toLong()
     }
 
+    fun getSizeInKilobyte(size: Int): Int {
+        return size / 1024
+    }
+
 //    fun getUri(buf: ByteArray): Uri? {
 //        val s = String(buf, "UTF-8")
 //        return Uri.parse(s)

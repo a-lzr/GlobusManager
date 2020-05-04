@@ -1,6 +1,7 @@
 package by.a_lzr.globusmanager.ui.main.messages.details
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Build
@@ -109,11 +110,13 @@ class MainMessagesDetailsFragment : Fragment(), View.OnClickListener {
 //                    .setInitialLoadKey(50) ????
                     .build()
 
-                liveData.observe(viewLifecycleOwner, Observer<PagedList<MessageDetail>> { pagedList ->
-                    mLayoutManager.scrollToPosition(MessagesHelper.posIndex)
-                    adapter.submitList(pagedList)
+                liveData.observe(
+                    viewLifecycleOwner,
+                    Observer<PagedList<MessageDetail>> { pagedList ->
+                        mLayoutManager.scrollToPosition(MessagesHelper.posIndex)
+                        adapter.submitList(pagedList)
 //                    mLayoutManager.onScrollStateChanged()
-                })
+                    })
             }
         }
     }
@@ -130,6 +133,7 @@ class MainMessagesDetailsFragment : Fragment(), View.OnClickListener {
             when (it.itemId) {
                 R.id.action_messages_send -> {
                     MessagesHelper.clearFiles()
+                    updateAttachInfo()
                     true
                 }
                 else -> false
@@ -179,6 +183,7 @@ class MainMessagesDetailsFragment : Fragment(), View.OnClickListener {
             REQUEST_GALLERY -> {
                 if (resultCode == RESULT_OK) {
                     MessagesHelper.addFile("file", "bmp", Converter.getBytes(data.data!!))
+                    updateAttachInfo()
 //                    imageTitleView.setImageBitmap(Converter.getImage(MessagesHelper.file!!))
 
 //                    imageTitleView.setImageURI(Utils.getImage(bb))
@@ -238,6 +243,9 @@ class MainMessagesDetailsFragment : Fragment(), View.OnClickListener {
                     MessagesHelper.personId,
                     sendTextView.text.toString()
                 )
+                sendTextView.setText("")
+                MessagesHelper.clearFiles()
+                updateAttachInfo()
             }
         }
     }
@@ -252,5 +260,20 @@ class MainMessagesDetailsFragment : Fragment(), View.OnClickListener {
     private fun addPhoto() {
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         startActivityForResult(cameraIntent, CAMERA_REQUEST)
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun updateAttachInfo() {
+        if (MessagesHelper.files == null || MessagesHelper.files!!.size == 0)
+            attachInfo.visibility = View.GONE
+        else {
+            var size = 0
+            for (i in 0 until MessagesHelper.files!!.size) {
+                size += MessagesHelper.files!![i].body.size
+            }
+            attachInfo.text = "Вложение: ${MessagesHelper.files!!.size} файлов\n" +
+                    "Размер: ${Converter.getSizeInKilobyte(size)} кб"
+            attachInfo.visibility = View.VISIBLE
+        }
     }
 }
