@@ -1,4 +1,4 @@
-package by.a_lzr.globusmanager.account
+package by.a_lzr.globusmanager.utils.account
 
 import android.Manifest
 import android.accounts.Account
@@ -8,8 +8,8 @@ import android.text.TextUtils
 import android.util.Log
 import by.a_lzr.globusmanager.GlobusApplication
 import by.a_lzr.globusmanager.R
-import by.a_lzr.globusmanager.permissions.PermissionsHelper
-import by.a_lzr.globusmanager.settings.SettingsHelper
+import by.a_lzr.globusmanager.utils.PermissionsHelper
+import by.a_lzr.globusmanager.utils.SettingsHelper
 
 object AccountHelper {
 

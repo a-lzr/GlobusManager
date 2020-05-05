@@ -21,11 +21,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.*
 import by.a_lzr.globusmanager.R
-import by.a_lzr.globusmanager.permissions.PermissionsHelper
+import by.a_lzr.globusmanager.utils.PermissionsHelper
 import by.a_lzr.globusmanager.data.DatabaseHelper
 import by.a_lzr.globusmanager.data.MessagesHelper
 import by.a_lzr.globusmanager.data.entity.MessageDetail
-import by.a_lzr.globusmanager.sync.SyncHelper
+import by.a_lzr.globusmanager.utils.sync.SyncHelper
 import by.a_lzr.globusmanager.ui.PERMISSION_CONTACT_REQUEST_CODE
 import by.a_lzr.globusmanager.utils.Converter
 import kotlinx.android.synthetic.main.fragment_main_messages_details.*

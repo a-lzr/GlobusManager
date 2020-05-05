@@ -2,7 +2,7 @@
 <ContactsAccountType xmlns:android="http://schemas.android.com/apk/res/android"
     inviteContactActionLabel="Add to Sample SyncAdaper"
     inviteContactActivity="by.a_lzr.globusmanager.deprecated.activities.InviteContactActivity"
-    viewContactNotifyService="by.a_lzr.globusmanager.notify.NotifyService"
+    viewContactNotifyService="by.a_lzr.globusmanager.utils.notify.NotifyService"
     viewGroupActionLabel="Show sample group details"
     viewGroupActivity="by.a_lzr.globusmanager.deprecated.activities.ViewGroupActivity"
     viewStreamItemActivity="by.a_lzr.globusmanager.deprecated.activities.ViewStreamItemActivity"

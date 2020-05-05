@@ -1,4 +1,4 @@
-package by.a_lzr.globusmanager.alerts
+package by.a_lzr.globusmanager.utils.alerts
 
 import android.app.AlertDialog
 import android.app.Dialog

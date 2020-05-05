@@ -1,4 +1,4 @@
-package by.a_lzr.globusmanager.sync
+package by.a_lzr.globusmanager.utils.sync
 
 import android.annotation.SuppressLint
 import by.a_lzr.globusmanager.data.entity.*

@@ -6,9 +6,9 @@ import android.os.Bundle
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import by.a_lzr.globusmanager.R
-import by.a_lzr.globusmanager.account.AccountHelper
-import by.a_lzr.globusmanager.activities.ActivityHelper
-import by.a_lzr.globusmanager.settings.SettingsHelper
+import by.a_lzr.globusmanager.utils.account.AccountHelper
+import by.a_lzr.globusmanager.utils.ActivityHelper
+import by.a_lzr.globusmanager.utils.SettingsHelper
 import by.a_lzr.globusmanager.ui.system.RegistrationActivity
 import by.a_lzr.globusmanager.ui.system.SynchronizeActivity
 

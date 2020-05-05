@@ -10,8 +10,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import by.a_lzr.globusmanager.R
-import by.a_lzr.globusmanager.sync.SyncHelper
-import by.a_lzr.globusmanager.toast.ToastHelper
+import by.a_lzr.globusmanager.utils.sync.SyncHelper
+import by.a_lzr.globusmanager.utils.ToastHelper
 import by.a_lzr.globusmanager.ui.main.MainFragmentListener
 import by.a_lzr.globusmanager.ui.main.messages.groups.MainMessagesGroupsFragment
 

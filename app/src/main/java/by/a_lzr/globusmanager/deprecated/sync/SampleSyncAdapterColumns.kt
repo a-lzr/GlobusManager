@@ -2,7 +2,7 @@ package by.a_lzr.globusmanager.deprecated.sync
 
 import android.provider.ContactsContract
 import by.a_lzr.globusmanager.R
-import by.a_lzr.globusmanager.settings.SettingsHelper
+import by.a_lzr.globusmanager.utils.SettingsHelper
 
 object SampleSyncAdapterColumns {
     /**

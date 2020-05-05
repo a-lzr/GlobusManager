@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import by.a_lzr.globusmanager.R
-import by.a_lzr.globusmanager.toast.ToastHelper
+import by.a_lzr.globusmanager.utils.ToastHelper
 import kotlinx.android.synthetic.main.item_contact.view.*
 
 class ContactsAdapter :

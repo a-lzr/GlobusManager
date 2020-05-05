@@ -1,4 +1,4 @@
-package by.a_lzr.globusmanager.permissions
+package by.a_lzr.globusmanager.utils
 
 import android.app.Activity
 import android.content.pm.PackageManager
@@ -14,7 +14,10 @@ object PermissionsHelper {
         permissions: Array<String>,
         requestCode: Int
     ): Boolean {
-        if (checkPermissions(permissions)) return true
+        if (checkPermissions(
+                permissions
+            )
+        ) return true
         Log.e("TAG1", "START REQUEST")
         requestPermissions(activity, permissions, requestCode)
         Log.e("TAG1", "END REQUEST")

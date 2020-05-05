@@ -3,8 +3,8 @@ package by.a_lzr.globusmanager
 import android.app.Application
 import android.content.Context
 import android.content.res.Resources
-import by.a_lzr.globusmanager.notify.NotifyHelper
-import by.a_lzr.globusmanager.settings.SettingsHelper
+import by.a_lzr.globusmanager.utils.notify.NotifyHelper
+import by.a_lzr.globusmanager.utils.SettingsHelper
 
 class GlobusApplication : Application() {
 

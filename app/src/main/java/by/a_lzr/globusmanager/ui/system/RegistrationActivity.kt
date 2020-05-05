@@ -8,9 +8,9 @@ import android.telephony.TelephonyManager
 import android.text.Editable
 import android.text.TextWatcher
 import by.a_lzr.globusmanager.R
-import by.a_lzr.globusmanager.account.AccountHelper
-import by.a_lzr.globusmanager.activities.ActivityHelper
-import by.a_lzr.globusmanager.permissions.PermissionsHelper
+import by.a_lzr.globusmanager.utils.account.AccountHelper
+import by.a_lzr.globusmanager.utils.ActivityHelper
+import by.a_lzr.globusmanager.utils.PermissionsHelper
 import by.a_lzr.globusmanager.open_classes.CustomAccountAuthenticatorActivity
 import by.a_lzr.globusmanager.ui.PERMISSION_PHONE_REQUEST_CODE
 import kotlinx.android.synthetic.main.activity_registration.*

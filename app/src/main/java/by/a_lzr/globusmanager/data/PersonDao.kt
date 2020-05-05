@@ -91,9 +91,6 @@ interface PersonDao {
     @Query("SELECT * FROM Person ")
     suspend fun getAllPersons(): List<Person>
 
-//    @Query("SELECT * FROM Message ")
-//    suspend fun getAllMessages(): List<Message>
-
     @Query(
         "WITH Links AS (SELECT Max(id) AS id, " +
                 "Sum(CASE WHEN outType = 0 AND status = 0 THEN 1 ELSE 0 END) AS countNoRead, " +
@@ -131,93 +128,19 @@ interface PersonDao {
     )
     fun getMessagesCountNotRead(): Int
 
-    @Query("SELECT m.*, Count(mf.id) AS countFiles " +
-            "FROM Message AS m " +
-            "LEFT JOIN MessageFile AS mf ON mf.messageId = m.id " +
-            "WHERE m.personId = :id " +
-            "GROUP BY m.id, m.personId, m.message, m.date, m.outType, m.status " +
-            "ORDER BY m.id")
-    fun getMessagesDetailsByPerson(id: Long): DataSource.Factory<Int,  MessageDetail>
+    @Query(
+        "SELECT COUNT(*)  " +
+                "FROM MessageFile"
+    )
+    fun getFilesCount(): Int
 
-//    @Query("SELECT p.id, p.name FROM Person AS p LEFT JOIN ")
-//    suspend fun getAllContactInfo(): List<ContactInfo>
-
-    // Добавление Person в бд
-//    @Insert
-//    fun insertAll(vararg list: PersonCompany?)
-//    fun insertAllPersonCompany(vararg list: PersonCompany?)
-
-    // Удаление Person из бд
-//    @Delete
-//    fun delete(person: Person?)
-
-//    @Query("DROP TABLE IF EXISTS 'PersonCompany'")
-//    suspend fun dropPersonCompany()
-
-/*    @Query("DELETE FROM PersonDepartment")
-    suspend fun dropPersonDepartment()
-
-    @Query("DELETE FROM PersonEmployeeGroup")
-    suspend fun dropPersonEmployeeGroup()
-
-    @Query("DELETE FROM PersonVehicleGroupType")
-    suspend fun dropPersonVehicleGroupType()
-
-    @Query("DELETE FROM PersonVehicleGroup")
-    suspend fun dropPersonVehicleGroup()
-
-    @Query("DELETE FROM Person")
-    suspend fun dropPerson()
-
-    @Query("DELETE FROM PersonContact")
-    suspend fun dropPersonContact()
-
-    @Query("DELETE FROM PersonEmployee")
-    suspend fun dropPersonEmployee()
-
-    @Query("DELETE FROM PersonVehicle")
-    suspend fun dropPersonVehicle()
-
-    @Query("DELETE FROM PersonVehicleGroupLink")
-    suspend fun dropPersonVehicleGroupLink() */
-
-
-/*    @Query("DELETE FROM PersonCompany")
-    suspend fun deleteAllPersonCompany()
-
-    @Query("DELETE FROM PersonDepartment")
-    suspend fun deleteAllPersonDepartment()
-
-    @Query("DELETE FROM PersonEmployeeGroup")
-    suspend fun deleteAllPersonEmployeeGroup()
-
-    @Query("DELETE FROM PersonVehicleGroupType")
-    suspend fun deleteAllPersonVehicleGroupType()
-
-    @Query("DELETE FROM PersonVehicleGroup")
-    suspend fun deleteAllPersonVehicleGroup()
-
-    @Query("DELETE FROM Person")
-    suspend fun deleteAllPerson()
-
-    @Query("DELETE FROM PersonContact")
-    suspend fun deleteAllPersonContact()
-
-    @Query("DELETE FROM PersonEmployee")
-    suspend fun deleteAllPersonEmployee()
-
-    @Query("DELETE FROM PersonVehicle")
-    suspend fun deleteAllPersonVehicle()
-
-    @Query("DELETE FROM PersonVehicleGroupLink")
-    suspend fun deleteAllPersonVehicleGroupLink() */
-
-    // Получение всех Person из бд
-//    @get:Query("SELECT * FROM person")
-//    val allPeople: List<Any?>?
-
-
-    // Получение всех Person из бд с условием
-//    @Query("SELECT * FROM person WHERE favoriteColor LIKE :color")
-//    fun getAllPeopleWithFavoriteColor(color: String?): List<Person?>?
+    @Query(
+        "SELECT m.*, Count(mf.id) AS countFiles " +
+                "FROM Message AS m " +
+                "LEFT JOIN MessageFile AS mf ON mf.messageId = m.id " +
+                "WHERE m.personId = :id " +
+                "GROUP BY m.id, m.personId, m.message, m.date, m.outType, m.status " +
+                "ORDER BY m.id"
+    )
+    fun getMessagesDetailsByPerson(id: Long): DataSource.Factory<Int, MessageDetail>
 }

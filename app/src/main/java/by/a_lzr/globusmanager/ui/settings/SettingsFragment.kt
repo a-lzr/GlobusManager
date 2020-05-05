@@ -5,8 +5,8 @@ import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import by.a_lzr.globusmanager.R
-import by.a_lzr.globusmanager.settings.SettingsHelper
-import by.a_lzr.globusmanager.toast.ToastHelper
+import by.a_lzr.globusmanager.utils.SettingsHelper
+import by.a_lzr.globusmanager.utils.ToastHelper
 
 class SettingsFragment : PreferenceFragmentCompat() {
 

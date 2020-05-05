@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.a_lzr.globusmanager.R
-import by.a_lzr.globusmanager.sync.SyncHelper
+import by.a_lzr.globusmanager.utils.sync.SyncHelper
 import kotlinx.android.synthetic.main.fragment_contacts_faces.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

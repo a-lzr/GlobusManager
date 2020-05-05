@@ -1,38 +1,32 @@
 package by.a_lzr.globusmanager.ui
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.content.*
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.provider.ContactsContract.CommonDataKinds.Phone
 import android.util.Log
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import androidx.navigation.ui.*
 import by.a_lzr.globusmanager.MainActivityListener
 import by.a_lzr.globusmanager.R
-import by.a_lzr.globusmanager.account.AccountHelper
-import by.a_lzr.globusmanager.alerts.CustomDialogFragment
+import by.a_lzr.globusmanager.utils.account.AccountHelper
+import by.a_lzr.globusmanager.utils.alerts.CustomDialogFragment
 import by.a_lzr.globusmanager.deprecated.sync.BatchOperation
 import by.a_lzr.globusmanager.deprecated.sync.ContactOperations
-import by.a_lzr.globusmanager.permissions.PermissionsHelper
-import by.a_lzr.globusmanager.settings.SettingsHelper
+import by.a_lzr.globusmanager.utils.PermissionsHelper
+import by.a_lzr.globusmanager.utils.SettingsHelper
 import by.a_lzr.globusmanager.ui.main.messages.details.MainMessagesDetailsActivity
 import com.google.android.material.navigation.NavigationView
-import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.app_bar_main.*
 
 
 const val PERMISSION_CONTACT_REQUEST_CODE = 1

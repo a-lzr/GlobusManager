@@ -1,11 +1,11 @@
-package by.a_lzr.globusmanager.sync
+package by.a_lzr.globusmanager.utils.sync
 
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import by.a_lzr.globusmanager.R
-import by.a_lzr.globusmanager.settings.SettingsHelper
-import by.a_lzr.globusmanager.toast.ToastHelper
+import by.a_lzr.globusmanager.utils.SettingsHelper
+import by.a_lzr.globusmanager.utils.ToastHelper
 
 const val SYNC_CODE_TASK1 = 1
 

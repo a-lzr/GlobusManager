@@ -1,4 +1,4 @@
-package by.a_lzr.globusmanager.account
+package by.a_lzr.globusmanager.utils.account
 
 import android.app.Service
 import android.content.Intent

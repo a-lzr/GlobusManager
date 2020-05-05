@@ -1,11 +1,11 @@
-package by.a_lzr.globusmanager.settings
+package by.a_lzr.globusmanager.utils
 
 import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
 import by.a_lzr.globusmanager.GlobusApplication
 import by.a_lzr.globusmanager.R
-import by.a_lzr.globusmanager.account.AccountHelper
+import by.a_lzr.globusmanager.utils.account.AccountHelper
 
 object SettingsHelper {
 

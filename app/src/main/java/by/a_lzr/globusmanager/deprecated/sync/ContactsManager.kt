@@ -12,8 +12,8 @@ import android.provider.ContactsContract.CommonDataKinds.StructuredName
 import android.provider.ContactsContract.RawContacts
 import android.util.Log
 import by.a_lzr.globusmanager.R
-import by.a_lzr.globusmanager.account.AccountHelper
-import by.a_lzr.globusmanager.settings.SettingsHelper
+import by.a_lzr.globusmanager.utils.account.AccountHelper
+import by.a_lzr.globusmanager.utils.SettingsHelper
 
 
 object ContactsManager {

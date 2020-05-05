@@ -1,4 +1,4 @@
-package by.a_lzr.globusmanager.activities
+package by.a_lzr.globusmanager.utils
 
 import android.content.Context
 import android.content.Intent

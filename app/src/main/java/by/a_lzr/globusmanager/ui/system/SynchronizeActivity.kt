@@ -4,20 +4,19 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
-import android.view.View
 import android.view.View.OnLongClickListener
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import kotlinx.android.synthetic.main.activity_synchronize.*
-import by.a_lzr.globusmanager.activities.ActivityHelper
-import by.a_lzr.globusmanager.alerts.CustomDialogFragment
-import by.a_lzr.globusmanager.settings.SettingsHelper
-import by.a_lzr.globusmanager.sync.*
+import by.a_lzr.globusmanager.utils.ActivityHelper
+import by.a_lzr.globusmanager.utils.alerts.CustomDialogFragment
+import by.a_lzr.globusmanager.utils.SettingsHelper
+import by.a_lzr.globusmanager.utils.sync.*
 import by.a_lzr.globusmanager.ui.MainActivity
 import by.a_lzr.globusmanager.R
-import by.a_lzr.globusmanager.toast.ToastHelper
+import by.a_lzr.globusmanager.utils.ToastHelper
 
 class SynchronizeActivity : AppCompatActivity(), SyncDataListener,
     CustomDialogFragment.DialogListener {

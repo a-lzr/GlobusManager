@@ -1,9 +1,7 @@
-package by.a_lzr.globusmanager.toast
+package by.a_lzr.globusmanager.utils
 
 import android.content.Context
-import android.view.View
 import android.widget.Toast
-import com.google.android.material.snackbar.Snackbar
 
 object ToastHelper {
 
@@ -18,7 +16,11 @@ object ToastHelper {
     } */
 
     fun showToast(context: Context?, text: String) {
-        showToast(context, text, Toast.LENGTH_LONG)
+        showToast(
+            context,
+            text,
+            Toast.LENGTH_LONG
+        )
     }
 
     private fun showToast(context: Context?, text: String, duration: Int) {

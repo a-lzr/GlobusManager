@@ -1,4 +1,4 @@
-package by.a_lzr.globusmanager.notify
+package by.a_lzr.globusmanager.utils.notify
 
 import android.app.Notification
 import android.app.NotificationChannel
@@ -7,7 +7,6 @@ import android.content.Context
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat.getSystemService
-import by.a_lzr.globusmanager.R
 
 const val NOTIFY_CHANNEL_ID = "NOTIFY_CHANNEL_ID"
 

@@ -57,7 +57,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
 
         <service
-            android:name=".account.AuthenticatorService"
+            android:name="by.a_lzr.globusmanager.utils.account.AuthenticatorService"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
@@ -84,11 +84,11 @@
                 android:resource="@xml/contacts" />
         </service>
         <service
-            android:name=".notify.NotifyService"
+            android:name="by.a_lzr.globusmanager.utils.notify.NotifyService"
             android:enabled="true"
             android:exported="true" />
         <service
-            android:name=".sync.SyncDataService"
+            android:name="by.a_lzr.globusmanager.utils.sync.SyncDataService"
             android:enabled="true"
             android:exported="true" />
     </application>

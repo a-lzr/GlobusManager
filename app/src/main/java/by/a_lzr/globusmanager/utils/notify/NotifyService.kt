@@ -1,4 +1,4 @@
-package by.a_lzr.globusmanager.notify
+package by.a_lzr.globusmanager.utils.notify
 
 import android.app.IntentService
 import android.content.Intent

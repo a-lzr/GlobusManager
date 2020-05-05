@@ -16,7 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import by.a_lzr.globusmanager.R
-import by.a_lzr.globusmanager.activities.ActivityHelper
+import by.a_lzr.globusmanager.utils.ActivityHelper
 import by.a_lzr.globusmanager.data.DatabaseHelper
 import by.a_lzr.globusmanager.data.entity.MessageGroup
 import by.a_lzr.globusmanager.data.MessagesHelper

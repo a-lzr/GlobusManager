@@ -1,4 +1,4 @@
-package by.a_lzr.globusmanager.sync
+package by.a_lzr.globusmanager.utils.sync
 
 import android.app.Service
 import android.content.Intent
@@ -8,8 +8,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlin.properties.Delegates
 import by.a_lzr.globusmanager.R
-import by.a_lzr.globusmanager.notify.NotifyHelper
-import by.a_lzr.globusmanager.settings.SettingsHelper
+import by.a_lzr.globusmanager.utils.notify.NotifyHelper
+import by.a_lzr.globusmanager.utils.SettingsHelper
 
 class SyncDataService : Service() {
     private var complete = false

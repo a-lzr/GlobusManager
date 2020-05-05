@@ -10,7 +10,7 @@ import android.provider.ContactsContract.CommonDataKinds.Phone
 import android.provider.ContactsContract.CommonDataKinds.StructuredName
 import android.provider.ContactsContract.RawContacts
 import android.text.TextUtils
-import by.a_lzr.globusmanager.account.AccountHelper
+import by.a_lzr.globusmanager.utils.account.AccountHelper
 
 
 class ContactOperations(
